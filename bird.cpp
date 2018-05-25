@@ -7,15 +7,17 @@ Bird::Bird(const QString& name, int age,double weight, int percentOfFeeding,
     :Animal( name, age, weight,   percentOfFeeding, species),
       mLengthOfWings(lengthOfWings),mPredator(predator){}
 
-void Bird::setLengthOfWings(double lengthOfWings0){
-    mLengthOfWings = lengthOfWings0;
+void Bird::setLengthOfWings(double lengthOfWings){
+    mLengthOfWings = lengthOfWings;
 }
 double Bird::getLengthOfWings() const { return mLengthOfWings;}
 
-void Bird::setPredator(bool predator0){
-    mPredator=predator0;
+void Bird::setPredator(bool predator){
+    mPredator=predator;
 }
 
 bool Bird::getPredator() const { return mPredator;}
 
 Bird::~Bird() {}
+
+bool  Bird::feed(const QString& foodType, double foodWeight){}

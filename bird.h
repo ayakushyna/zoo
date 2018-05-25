@@ -8,11 +8,14 @@ public:
     Bird();
     Bird(const QString& name,int age, double weight, int percentOfFeeding,
          const QString& species,double lengthOfWings,bool predator);
-    void setLengthOfWings(double lengthOfWings0);
-    double getLengthOfWings()const;
-    void setPredator(bool predator0);
-    bool getPredator()const;
     ~Bird();
+
+    void setLengthOfWings(double lengthOfWings);
+    double getLengthOfWings()const;
+    void setPredator(bool predator);
+    bool getPredator()const;
+
+    bool feed(const QString& foodType, double foodWeight);
 
 private:
     double mLengthOfWings;

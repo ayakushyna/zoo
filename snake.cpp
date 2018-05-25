@@ -20,3 +20,5 @@ void Snake::setPoisonous(bool poisonous){
 bool Snake::getPoisonous()const {return mPoisonous;}
 
 Snake::~Snake() {}
+
+bool  Snake::feed(const QString& foodType, double foodWeight){}

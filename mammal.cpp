@@ -15,3 +15,5 @@ void Mammal::setMilkPeriod(int milkPeriod){
 int Mammal::getMilkPeriod()const { return mMilkPeriod; }
 
 Mammal::~Mammal() {}
+
+bool  Mammal::feed(const QString& foodType, double foodWeight){}

@@ -157,7 +157,11 @@ void Widget::changeZooNameSlot(){
     }
 }
 
-void Widget::feedingSlot(){}
+void Widget::feedingSlot(){
+    feeddialog = new FeedDialog;
+    feeddialog->resize(400,200);
+    feeddialog->show();
+}
 
 
 void Widget::addAnimalSlot(){

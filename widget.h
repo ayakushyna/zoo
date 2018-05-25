@@ -9,6 +9,7 @@
 #include "zoo.h"
 #include "animalinfo.h"
 #include "animalwizard.h"
+#include "feeddialog.h"
 #include <QtWidgets>
 
 namespace Ui {class Widget;}
@@ -29,7 +30,7 @@ private:
     Ui::Widget *ui;
 
     Zoo* zoo;
-
+    FeedDialog* feeddialog;
     AnimalWizard* wizard;
 
     void createButtonsGroupBox();

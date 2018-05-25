@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/anaconda.png</file>
+        <file>images/cobra.png</file>
+        <file>images/elephant.png</file>
+        <file>images/flamingo.png</file>
+        <file>images/giraffe.png</file>
+        <file>images/lion.png</file>
+        <file>images/monkey.png</file>
+        <file>images/parrot.png</file>
+        <file>images/peacock.png</file>
+        <file>images/penguin.png</file>
+        <file>images/zoo_icon.png</file>
+    </qresource>
+</RCC>

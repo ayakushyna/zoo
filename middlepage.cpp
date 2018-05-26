@@ -58,8 +58,7 @@ MiddlePage::MiddlePage( int path, QWidget* parent )
     QRadioButton* animalButton = new QRadioButton;
     animalButton->setIcon(QIcon(":/images/" + animal + ".png"));
     animalButton->setIconSize(QSize(140,140));
-    buttonGroup->addButton(animalButton);
-    buttonGroup->setId(animalButton,id);
+    buttonGroup->addButton(animalButton,id);
     connect(animalButton,SIGNAL(clicked(bool)),SLOT(setAnimalSpecies()));
 
     QLabel* animalLbl = new QLabel(animal);
@@ -138,6 +137,7 @@ MiddlePage::MiddlePage( int path, QWidget* parent )
              break;
          }
          }
+
       }
 
  }

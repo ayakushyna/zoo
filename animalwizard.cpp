@@ -39,7 +39,9 @@ int AnimalWizard::getPath()const
 
 QString AnimalWizard::getAnimalName()const{return animalName;}
 
-int AnimalWizard::getAnimalAge()const{return animalAge;}
+int AnimalWizard::getAnimalYears()const{return animalYears;}
+
+int AnimalWizard::getAnimalMonths()const{return animalMonths;}
 
 double AnimalWizard::getAnimalWeight()const{return animalWeight;}
 
@@ -69,7 +71,8 @@ void AnimalWizard::accept()
     case BIRD_PAGE:
     {
         animalName = birdInfoPage->nameLineEdit->text();
-        animalAge = birdInfoPage->ageLineEdit->text().toInt();
+        animalYears = birdInfoPage->yearsLineEdit->text().toInt();
+        animalMonths = birdInfoPage->monthsLineEdit->text().toInt();
         animalWeight = birdInfoPage->weightLineEdit->text().toDouble();
         animalPercent = birdInfoPage->percentOfFeedingLineEdit->text().toInt();
         animalSpecies = birdMiddlePage->animalSpecies;
@@ -81,7 +84,8 @@ void AnimalWizard::accept()
     case MAMMAL_PAGE:
     {
         animalName = mammalInfoPage->nameLineEdit->text();
-        animalAge = mammalInfoPage->ageLineEdit->text().toInt();
+        animalYears = mammalInfoPage->yearsLineEdit->text().toInt();
+        animalMonths = mammalInfoPage->monthsLineEdit->text().toInt();
         animalWeight = mammalInfoPage->weightLineEdit->text().toDouble();
         animalPercent = mammalInfoPage->percentOfFeedingLineEdit->text().toInt();
         animalSpecies = mammalMiddlePage->animalSpecies;
@@ -92,7 +96,8 @@ void AnimalWizard::accept()
     case SNAKE_PAGE:
     {
         animalName = snakeInfoPage->nameLineEdit->text();
-        animalAge = snakeInfoPage->ageLineEdit->text().toInt();
+        animalYears = snakeInfoPage->yearsLineEdit->text().toInt();
+        animalMonths = snakeInfoPage->monthsLineEdit->text().toInt();
         animalWeight = snakeInfoPage->weightLineEdit->text().toDouble();
         animalPercent = snakeInfoPage->percentOfFeedingLineEdit->text().toInt();
         animalSpecies = snakeMiddlePage->animalSpecies;

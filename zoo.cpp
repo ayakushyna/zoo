@@ -17,10 +17,21 @@ QList<QString> Zoo::getAnimalsNames() const{
     return mAnimals.uniqueKeys();
 }
 
-void Zoo::feeding(Animaltype type,const QString&  foodType, double foodWeight ){}
+void Zoo::feeding(Animaltype type,const QString&  foodType,int percentIncrease){
+    int minPercent = 101;
+    Animal* hungryAnimal = nullptr;
+    for(auto i = mAnimals.begin(); i != mAnimals.end();i++)
+    {
+        if((i.value()->getType() == type) && (i.value()->getPercentOfFeeding() < minPercent)){
+            minPercent = i.value()->getPercentOfFeeding();
+            hungryAnimal = i.value();
+        }
+    }
+
+    if(hungryAnimal != nullptr) hungryAnimal->feed(foodType, percentIncrease);
+}
 
 void Zoo::addAnimal( Animal* animal){
-
     mAnimals.insert(animal->getName(),animal);
 }
 

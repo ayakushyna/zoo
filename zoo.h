@@ -21,7 +21,7 @@ public:
     QList<QString> getAnimalsNames() const;
     void addAnimal( Animal* animal);
     Animal* getAnimal(const QString& name) const;
-    void feeding(Animaltype type,const QString&  foodType, double foodWeight );
+    void feeding(Animaltype type,const QString&  foodType,int percentIncrease);
 
 private:
     QString mZooName;

@@ -30,12 +30,12 @@ private:
     Ui::Widget *ui;
 
     Zoo* zoo;
-    FeedDialog* feeddialog;
+    FeedDialog* feedDialog;
     AnimalWizard* wizard;
 
     void createButtonsGroupBox();
     void createTabsOfAnimals();
-    void createAnimalGroupBox(int type);
+    void createAnimalGroupBox(Animaltype type);
 
     QGroupBox* buttonsGroupBox;
 

@@ -2,9 +2,9 @@
 
 Snake::Snake() :Animal(), mLength(0), mPoisonous(0) {}
 
-Snake::Snake(const QString& name, int age,double weight, int percentOfFeeding,
-     const QString& species,double length,bool poisonous)
-    :Animal( name,  age, weight,  percentOfFeeding, species),
+Snake::Snake(const QString& name, Animaltype type,  int years, int months ,double weight,
+             int percentOfFeeding, const QString& species, double length, bool poisonous)
+    :Animal( name, type, years, months, weight,  percentOfFeeding, species),
       mLength(length),mPoisonous(poisonous){}
 
 void Snake::setLength(double length){
@@ -19,6 +19,12 @@ void Snake::setPoisonous(bool poisonous){
 
 bool Snake::getPoisonous()const {return mPoisonous;}
 
-Snake::~Snake() {}
+bool Snake::feed(const QString& foodType, int percentIncrease){
+    if(mPercentOfFeeding+percentIncrease > 100){
+        mPercentOfFeeding = 100;
+    }
+    else mPercentOfFeeding+=percentIncrease;
+    return true;
+}
 
-bool  Snake::feed(const QString& foodType, double foodWeight){}
+Snake::~Snake() {}

@@ -10,6 +10,8 @@
 #include "animalinfo.h"
 #include "animalwizard.h"
 #include <QtWidgets>
+#include <QMap>
+#include <QString>
 
 class FeedDialog: public QDialog
 {
@@ -17,10 +19,21 @@ class FeedDialog: public QDialog
 public:
     FeedDialog(QWidget* parent = 0);
     ~FeedDialog();
+    void accept();
+
+    Animaltype getAnimalType() const;
+    QString getFoodType() const;
+    int getPercentIncrease() const;
 
 private:
+    static const QMap<QString,int> food ;
+
     Animaltype animalType;
-    Foodtype foodType;
+    QString foodType;
+    int percentIncrease;
+
+    QButtonGroup* animalButtons;
+    QComboBox* listOfFoodTypes;
 };
 
 #endif // FEEDDIALOG_H

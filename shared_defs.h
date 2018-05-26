@@ -3,7 +3,7 @@
 
 
 enum pages {
-    INTRO_PAGE,
+    INTRO_PAGE ,
     BIRD_PAGE,
     MAMMAL_PAGE,
     SNAKE_PAGE,
@@ -13,8 +13,8 @@ enum pages {
     FINAL_PAGE
 };
 
-enum Animaltype { BIRD=1, MAMMAL, SNAKE };
+enum Animaltype { BIRD = 1, MAMMAL, SNAKE };
 
-enum Foodtype {SEEDS,MILLET,GRASS,MEAT,MILK,INSECTS,MOUSE};
+//enum Foodtype {SEEDS,MILLET,GRASS,MEAT,MILK,INSECTS,MOUSE};
 
 #endif // SHARED_DEFS_H

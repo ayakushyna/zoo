@@ -38,6 +38,7 @@ AnimalInfo::AnimalInfo(Animaltype type)
         mammalInfo = new QGroupBox("Mammal Info");
         QVBoxLayout *layout = new QVBoxLayout;
         currMilkPeriod = new QLabel;
+        currPredator = new QLabel;
 
         layout->addWidget(currImage);
         layout->addWidget(currName);
@@ -47,6 +48,7 @@ AnimalInfo::AnimalInfo(Animaltype type)
         layout->addWidget(currPercentOfFeeding);
         layout->addWidget(currSpecies);
         layout->addWidget(currMilkPeriod);
+        layout->addWidget(currPredator);
 
         mammalInfo->setLayout(layout);
         break;
@@ -102,6 +104,8 @@ void AnimalInfo::setAnimalInfo(Animaltype type,Animal* animal)
     case MAMMAL:
     {
         currMilkPeriod->setText(QStringLiteral("Milk period: %1").arg(dynamic_cast<Mammal*>(animal)->getMilkPeriod()));
+        currPredator->setText("Predator: " + QString((dynamic_cast<Mammal*>(animal)->getPredator()? "yes":"no")));
+        break;
         break;
     }
     case SNAKE:

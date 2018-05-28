@@ -194,7 +194,7 @@ void Widget::addAnimalSlot(){
         {
         animal = new Mammal(wizard->getAnimalName(), MAMMAL, wizard->getAnimalYears(), wizard->getAnimalMonths(),
                             wizard->getAnimalWeight(), wizard->getAnimalPercent(), wizard->getAnimalSpecies(),
-                            wizard->getAnimalMilkPeriod());
+                            wizard->getAnimalMilkPeriod(), wizard->getAnimalPredator());
 
 
         zoo->addAnimal(animal);

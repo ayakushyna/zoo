@@ -78,7 +78,6 @@ InfoPage::InfoPage( int path,const QList <QString>& animalsNames,QWidget* parent
         layout->addWidget(predatorLabel,4,2);
         layout->addWidget(predatorButton,4,3);
 
-
         break;
     }
 
@@ -89,9 +88,15 @@ InfoPage::InfoPage( int path,const QList <QString>& animalsNames,QWidget* parent
         milkPeriodErrorLabel->setStyleSheet( "color: red; font-size: 8pt;");
         milkPeriodLineEdit = new QLineEdit;
 
+        QLabel *predatorLabel = new QLabel("Predator?");
+        predatorButton = new QCheckBox;
+
         layout->addWidget(milkPeriodLabel,4,0);
         layout->addWidget(milkPeriodLineEdit,4,1);
         layout->addWidget(milkPeriodErrorLabel,5,1);registerField( "animalMilkPeriod*", milkPeriodLineEdit );
+
+        layout->addWidget(predatorLabel,4,2);
+        layout->addWidget(predatorButton,4,3);
 
         break;
     }
@@ -113,7 +118,6 @@ InfoPage::InfoPage( int path,const QList <QString>& animalsNames,QWidget* parent
 
         layout->addWidget(poisonousLabel,4,2);
         layout->addWidget(poisonousButton,4,3);
-
 
         break;
     }

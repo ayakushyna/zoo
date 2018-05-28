@@ -78,7 +78,7 @@ void AnimalWizard::accept()
         animalSpecies = birdMiddlePage->animalSpecies;
 
         animalLengthOfWings = birdInfoPage->lengthOfWingsLineEdit->text().toDouble();
-        animalPredator = birdInfoPage->predatorButton->isChecked() ;
+        animalPredator = birdInfoPage->predatorButton->isChecked();
         break;
     }
     case MAMMAL_PAGE:
@@ -91,6 +91,7 @@ void AnimalWizard::accept()
         animalSpecies = mammalMiddlePage->animalSpecies;
 
         animalMilkPeriod = mammalInfoPage->milkPeriodLineEdit->text().toInt();
+        animalPredator = mammalInfoPage->predatorButton->isChecked() ;
         break;
     }
     case SNAKE_PAGE:

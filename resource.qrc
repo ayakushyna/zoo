@@ -11,5 +11,6 @@
         <file>images/peacock.png</file>
         <file>images/penguin.png</file>
         <file>images/zoo_icon.png</file>
+        <file>images/hawk.png</file>
     </qresource>
 </RCC>

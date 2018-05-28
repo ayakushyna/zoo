@@ -18,7 +18,7 @@ FeedDialog::FeedDialog(QWidget *parent)
 
     QList <QStringList> foodTypes;
     foodTypes.push_back(QStringList(" "));
-    QStringList birdFood = {"Seeds","Millet"};
+    QStringList birdFood = {"Seeds","Millet","Fish"};
     foodTypes.push_back(birdFood);
     QStringList mammalFood = {"Grass","Meat","Milk"};
     foodTypes.push_back(mammalFood);
@@ -55,7 +55,7 @@ FeedDialog::FeedDialog(QWidget *parent)
     setLayout(layout);
 }
 
-const QMap<QString,int> FeedDialog::food = {{ "Seeds", 37 }, { "Millet", 40 },
+const QMap<QString,int> FeedDialog::food = {{ "Seeds", 37 }, { "Millet", 40 }, { "Fish", 40 },
                                             { "Grass", 15 }, { "Meat", 20 }, { "Milk", 40 },
                                             { "Insects", 15 }, { "Mouse", 20 }};
 

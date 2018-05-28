@@ -21,7 +21,13 @@ void Mammal::setPredator(bool predator){
 bool Mammal::getPredator() const { return mPredator;}
 
 bool Mammal::feed(const QString& foodType, int percentIncrease){
-    if(mYears == 0 && mMonths <= mMilkPeriod && foodType != "Milk") return false;
+    if(( mYears == 0 && mMonths <= mMilkPeriod && foodType != "Milk") ||
+      (( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod) ) && foodType == "Milk"))
+        return false;
+
+    if(mPredator && ( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod)) && foodType != "Meat")
+        return false;
+
     if(mPercentOfFeeding+percentIncrease > 100){
         mPercentOfFeeding = 100;
     }

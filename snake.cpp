@@ -24,6 +24,7 @@ bool Snake::feed(const QString& foodType, int percentIncrease){
         mPercentOfFeeding = 100;
     }
     else mPercentOfFeeding+=percentIncrease;
+
     return true;
 }
 

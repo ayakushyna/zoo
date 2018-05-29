@@ -15,6 +15,8 @@ enum pages {
 
 enum Animaltype { BIRD = 1, MAMMAL, SNAKE };
 
+enum messages { NOANIMAL = -1, UNFED, FED };
+
 //enum Foodtype {SEEDS,MILLET,GRASS,MEAT,MILK,INSECTS,MOUSE};
 
 #endif // SHARED_DEFS_H

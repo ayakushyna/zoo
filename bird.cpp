@@ -22,6 +22,9 @@ bool Bird::feed(const QString& foodType, int percentIncrease){
     if(mPredator && foodType != "Fish")
         return false;
 
+    if(!mPredator && foodType == "Fish")
+        return false;
+
     if(mPercentOfFeeding+percentIncrease > 100){
         mPercentOfFeeding = 100;
     }

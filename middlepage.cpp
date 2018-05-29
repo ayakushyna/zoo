@@ -84,7 +84,7 @@ MiddlePage::MiddlePage( int path, QWidget* parent )
     animalButton->setIcon(QIcon(":/images/" + animal + ".png"));
     animalButton->setIconSize(QSize(140,140));
     buttonGroup->addButton(animalButton, id);
-    connect(animalButton,SIGNAL(clicked(bool)),SLOT(setAnimalSpecies()));
+    connect(animalButton,SIGNAL(clicked()),SLOT(setAnimalSpecies()));
 
     QLabel* animalLbl = new QLabel(animal);
     animalLbl->setAlignment(Qt::AlignCenter);

@@ -162,7 +162,26 @@ void Widget::feedingSlot(){
     feedDialog->show();
 
     if (feedDialog->exec()){
-        zoo->feeding(feedDialog->getAnimalType(),feedDialog->getFoodType(),feedDialog->getPercentIncrease());
+        int message = zoo->feeding(feedDialog->getAnimalType(),feedDialog->getFoodType(),feedDialog->getPercentIncrease());
+
+        switch(message)
+        {
+        case FED:
+        {
+            QMessageBox::information(this, "Feeding info", "Successful feeding.");
+            break;
+        }
+        case UNFED:
+        {
+            QMessageBox::critical(this, "Feeding info", "Failed feeding.");
+            break;
+        }
+        case NOANIMAL:
+        {
+            QMessageBox::critical(this, "Feeding info", "There are no animals of this type.");
+            break;
+        }
+        }
     }
 }
 

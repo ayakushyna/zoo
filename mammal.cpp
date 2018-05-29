@@ -28,6 +28,9 @@ bool Mammal::feed(const QString& foodType, int percentIncrease){
     if(mPredator && ( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod)) && foodType != "Meat")
         return false;
 
+    if(!mPredator && foodType == "Meat")
+        return false;
+
     if(mPercentOfFeeding+percentIncrease > 100){
         mPercentOfFeeding = 100;
     }

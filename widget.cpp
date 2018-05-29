@@ -25,7 +25,7 @@ Widget::~Widget(){
 }
 
 void Widget::createButtonsGroupBox(){
-    buttonsGroupBox = new QGroupBox(tr("Zoo Actions"));
+    buttonsGroupBox = new QGroupBox("Zoo Actions");
     QVBoxLayout *layout = new QVBoxLayout;
 
     QPushButton* changeZooNameButton = new QPushButton("Change Zoo Name");
@@ -36,9 +36,9 @@ void Widget::createButtonsGroupBox(){
     connect(feedingButton, SIGNAL(clicked()),SLOT(feedingSlot()));
     connect(addAnimalButton, SIGNAL(clicked()),SLOT(addAnimalSlot()));
 
-    layout ->addWidget(changeZooNameButton);
-    layout ->addWidget(feedingButton);
-    layout ->addWidget(addAnimalButton);
+    layout->addWidget(changeZooNameButton);
+    layout->addWidget(feedingButton);
+    layout->addWidget(addAnimalButton);
 
     buttonsGroupBox->setLayout(layout);
 }
@@ -56,7 +56,7 @@ void Widget::createTabsOfAnimals(){
 
 }
 
-void Widget::createAnimalGroupBox(int type){
+void Widget::createAnimalGroupBox(Animaltype type){
 
     QTimer* timer = new QTimer;
     switch (type)
@@ -142,8 +142,7 @@ void Widget::changeZooNameSlot(){
     bool bOk, bInvalid = false;
     QString zooName;
 
-    do
-    {
+    do {
     zooName = QInputDialog::getText( this, "Input Name", "Name:",
                                      QLineEdit::Normal,  (bInvalid? "Invalid Name":""), &bOk );
     bInvalid= true;
@@ -157,7 +156,34 @@ void Widget::changeZooNameSlot(){
     }
 }
 
-void Widget::feedingSlot(){}
+void Widget::feedingSlot(){
+    feedDialog = new FeedDialog;
+    feedDialog->resize(400,200);
+    feedDialog->show();
+
+    if (feedDialog->exec()){
+        int message = zoo->feeding(feedDialog->getAnimalType(),feedDialog->getFoodType(),feedDialog->getPercentIncrease());
+
+        switch(message)
+        {
+        case FED:
+        {
+            QMessageBox::information(this, "Feeding info", "Successful feeding.");
+            break;
+        }
+        case UNFED:
+        {
+            QMessageBox::critical(this, "Feeding info", "Failed feeding.");
+            break;
+        }
+        case NOANIMAL:
+        {
+            QMessageBox::critical(this, "Feeding info", "There are no animals of this type.");
+            break;
+        }
+        }
+    }
+}
 
 
 void Widget::addAnimalSlot(){
@@ -168,15 +194,15 @@ void Widget::addAnimalSlot(){
 
     if (wizard->exec())
     {
-        QTimer* timer = new QTimer;
         Animal* animal;
+
         switch(wizard->getPath())
         {
         case BIRD:
         {
-        animal = new Bird(wizard->getAnimalName(),wizard->getAnimalAge(),wizard->getAnimalWeight(),
-                          wizard->getAnimalPercent(),wizard->getAnimalSpecies(),wizard->getAnimalLengthOfWings(),
-                          wizard->getAnimalPredator());
+        animal = new Bird(wizard->getAnimalName(), BIRD, wizard->getAnimalYears(), wizard->getAnimalMonths(),
+                          wizard->getAnimalWeight(), wizard->getAnimalPercent(), wizard->getAnimalSpecies(),
+                          wizard->getAnimalLengthOfWings(), wizard->getAnimalPredator());
 
         zoo->addAnimal(animal);
         listOfBirds->addItem(QIcon(":/images/" + animal->getSpecies() + ".png"),animal->getName());
@@ -185,8 +211,9 @@ void Widget::addAnimalSlot(){
 
         case MAMMAL:
         {
-        animal = new Mammal(wizard->getAnimalName(),wizard->getAnimalAge(),wizard->getAnimalWeight(),
-                            wizard->getAnimalPercent(), wizard->getAnimalSpecies(),wizard->getAnimalMilkPeriod());
+        animal = new Mammal(wizard->getAnimalName(), MAMMAL, wizard->getAnimalYears(), wizard->getAnimalMonths(),
+                            wizard->getAnimalWeight(), wizard->getAnimalPercent(), wizard->getAnimalSpecies(),
+                            wizard->getAnimalMilkPeriod(), wizard->getAnimalPredator());
 
 
         zoo->addAnimal(animal);
@@ -198,9 +225,9 @@ void Widget::addAnimalSlot(){
         case SNAKE:
         {
 
-        animal = new Snake(wizard->getAnimalName(),wizard->getAnimalAge(),wizard->getAnimalWeight(),
-                           wizard->getAnimalPercent(),wizard->getAnimalSpecies(),wizard->getAnimalLength(),
-                           wizard->getAnimalPoisonous());
+        animal = new Snake(wizard->getAnimalName(), SNAKE, wizard->getAnimalYears(), wizard->getAnimalMonths(),
+                           wizard->getAnimalWeight(), wizard->getAnimalPercent(), wizard->getAnimalSpecies(),
+                           wizard->getAnimalLength(), wizard->getAnimalPoisonous());
 
 
 
@@ -210,12 +237,23 @@ void Widget::addAnimalSlot(){
         }
         }
 
-        connect(timer,&QTimer::timeout,
+        QTimer* feedingTimer = new QTimer;
+        connect(feedingTimer,&QTimer::timeout,
                 [animal](){
                     if(animal->getPercentOfFeeding() > 0)
                         animal->declinePercentOfFeeding();
+
                 });
-        timer->start(1000);
+        feedingTimer->start(1000);
+
+        QTimer* ageTimer = new QTimer;
+        connect(ageTimer,&QTimer::timeout,
+                [animal](){
+                    if(animal->getYears() < 100)
+                        animal->riseAge();
+
+                });
+        ageTimer->start(10000);
 
     }
     }

@@ -33,9 +33,13 @@ private:
     QLineEdit *nameLineEdit;
     QLabel *nameErrorLabel;
 
-    bool checkAge(int age);
-    QLineEdit *ageLineEdit;
-    QLabel *ageErrorLabel;
+    bool checkYears(int years);
+    QLineEdit *yearsLineEdit;
+    QLabel *yearsErrorLabel;
+
+    bool checkMonths(int months);
+    QLineEdit *monthsLineEdit;
+    QLabel *monthsErrorLabel;
 
     bool checkWeight(double weight);
     QLineEdit *weightLineEdit;

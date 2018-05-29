@@ -4,6 +4,8 @@
 #include "animalwizard.h"
 #include <QWizardPage>
 #include <QWizard>
+#include <QVector>
+#include <QString>
 #include <QtWidgets>
 class QVBoxLayout;
 class QRadioButton;
@@ -15,21 +17,21 @@ class MiddlePage: public QWizardPage {
 
 public:
     MiddlePage( int path,QWidget* parent = 0 );
-    QString getAnimalSpecies()const;
     ~MiddlePage();
-
     friend  class AnimalWizard;
+
+    QString getAnimalSpecies()const;
+
+private slots:
+     void setAnimalSpecies();
 
 protected:
     int nextId() const;
     bool validatePage();
 
-private slots:
-     void setAnimalSpecies();
-
 private:
-
-    QGroupBox* createAnimalGroupBox(const QString& animal,QButtonGroup* buttonGroup,int id);
+    static const QMap <QString,Animaltype> species ;
+    QGroupBox* createAnimalGroupBox(const QString& animal,QButtonGroup* buttonGroup, int id);
 
     int path;
     QString animalSpecies;

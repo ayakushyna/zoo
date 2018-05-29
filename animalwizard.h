@@ -25,7 +25,8 @@ public:
 
     int getPath()const;
     QString getAnimalName()const;
-    int getAnimalAge()const;
+    int getAnimalYears()const;
+    int getAnimalMonths()const;
     double getAnimalWeight()const;
     int getAnimalPercent()const;
     QString getAnimalSpecies()const;
@@ -50,7 +51,7 @@ private:
     FinalPage* finalPage;
 
     QString animalName;
-    int animalAge;
+    int animalYears, animalMonths;
     double animalWeight;
     int animalPercent;
     QString animalSpecies;

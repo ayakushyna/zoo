@@ -14,7 +14,7 @@
 class AnimalInfo
 {
 public:
-    AnimalInfo(int type);
+    AnimalInfo(Animaltype type);
     ~AnimalInfo();
 
     QGroupBox* getBirdInfo();
@@ -22,12 +22,13 @@ public:
     QGroupBox* getSnakeInfo();
 
 public slots:
-    void setAnimalInfo(int type,Animal* animal);
+    void setAnimalInfo(Animaltype type,Animal* animal);
 
 private:
     QLabel* currImage;
     QLabel* currName;
-    QLabel* currAge;
+    QLabel* currYears;
+    QLabel* currMonths;
     QLabel* currWeight;
     QLabel* currPercentOfFeeding;
     QLabel* currSpecies;

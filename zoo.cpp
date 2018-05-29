@@ -2,6 +2,8 @@
 
 Zoo::Zoo() : mZooName("Zoo"),mAnimals(){}
 
+Zoo::Zoo(const QString& zooName) : mZooName(zooName),mAnimals(){}
+
 bool Zoo::checkZooName(const QString& zooName){
     QRegExp rxpName( "[A-Z][a-z]{1,14}" );
     return rxpName.exactMatch(zooName);

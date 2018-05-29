@@ -10,6 +10,8 @@
 #include "animalinfo.h"
 #include "animalwizard.h"
 #include "feeddialog.h"
+#include <QMap>
+#include <QString>
 #include <QtWidgets>
 
 namespace Ui {class Widget;}
@@ -30,12 +32,17 @@ private:
     Ui::Widget *ui;
 
     Zoo* zoo;
+    static QMap <QString, Zoo*> zoos;
     FeedDialog* feedDialog;
     AnimalWizard* wizard;
 
-    void createButtonsGroupBox();
-    void createTabsOfAnimals();
+    QGroupBox* createZooGroupBox();
+    QGroupBox* createButtonsGroupBox();
+    QTabWidget* createTabsOfAnimals();
+
     void createAnimalGroupBox(Animaltype type);
+
+    QGroupBox* zooGroupBox;
 
     QGroupBox* buttonsGroupBox;
 

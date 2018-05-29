@@ -15,6 +15,7 @@ class Zoo
 {
 public:
     Zoo();
+    Zoo(const QString& zooName);
     bool checkZooName(const QString& zooName);
     void setZooName(const QString& zooName);
     QString getZooName()const;

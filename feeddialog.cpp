@@ -55,9 +55,9 @@ FeedDialog::FeedDialog(QWidget *parent)
     setLayout(layout);
 }
 
-const QMap<QString,int> FeedDialog::food = {{ "Seeds", 37 }, { "Millet", 40 }, { "Fish", 40 },
-                                            { "Grass", 15 }, { "Meat", 20 }, { "Milk", 40 },
-                                            { "Insects", 15 }, { "Mouse", 20 }};
+const QMap<QString,int> FeedDialog::food = {{ "Seeds", 30 }, { "Millet", 20 }, { "Fish", 50 },
+                                            { "Grass", 30 }, { "Meat", 50 }, { "Milk", 40 },
+                                            { "Insects", 30 }, { "Mouse", 50 }};
 
 void FeedDialog::accept(){
     animalType = static_cast<Animaltype>(animalButtons->checkedId());

@@ -1,18 +1,20 @@
 #include "widget.h"
 #include "ui_widget.h"
 
+QMap <QString, Zoo*> Widget::zoos = {{"Zoo1",new Zoo("Zoo1")},
+                                     {"Zoo2",new Zoo("Zoo2")} };
+
 Widget::Widget(QWidget *parent) :
     QWidget(parent),ui(new Ui::Widget){
 
     ui->setupUi(this);
-    zoo = new Zoo;
 
-    createButtonsGroupBox();
-    createTabsOfAnimals();
+    QGridLayout *mainLayout = new QGridLayout;
+    mainLayout->addWidget(createZooGroupBox(),0,0);
+    mainLayout->addWidget(createTabsOfAnimals(),1,0);
+    mainLayout->addWidget(createButtonsGroupBox(),1,1);
 
-    QHBoxLayout *mainLayout = new QHBoxLayout;
-    mainLayout->addWidget(tabsOfAnimals);
-    mainLayout->addWidget(buttonsGroupBox);
+    zoo = zoos.begin().value();
 
     setLayout(mainLayout);
 
@@ -24,7 +26,27 @@ Widget::~Widget(){
     delete ui;
 }
 
-void Widget::createButtonsGroupBox(){
+QGroupBox* Widget::createZooGroupBox(){
+    zooGroupBox = new QGroupBox("Select zoo:");
+    QVBoxLayout *layout = new QVBoxLayout;
+
+    QComboBox* listOfZoo = new QComboBox;
+    listOfZoo->addItems(zoos.keys());
+
+    connect(listOfZoo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
+            [=](const QString &text){
+                auto it = zoos.find(text);
+                zoo = it.value();
+                setWindowTitle(zoo->getZooName());
+    });
+
+    layout->addWidget(listOfZoo);
+    zooGroupBox->setLayout(layout);
+
+    return zooGroupBox;
+}
+
+QGroupBox* Widget::createButtonsGroupBox(){
     buttonsGroupBox = new QGroupBox("Zoo Actions");
     QVBoxLayout *layout = new QVBoxLayout;
 
@@ -41,9 +63,11 @@ void Widget::createButtonsGroupBox(){
     layout->addWidget(addAnimalButton);
 
     buttonsGroupBox->setLayout(layout);
+
+    return buttonsGroupBox;
 }
 
-void Widget::createTabsOfAnimals(){
+QTabWidget* Widget::createTabsOfAnimals(){
     tabsOfAnimals = new QTabWidget;
 
     createAnimalGroupBox(BIRD);
@@ -53,6 +77,8 @@ void Widget::createTabsOfAnimals(){
     tabsOfAnimals->addTab(birdsGroupBox,"Birds");
     tabsOfAnimals->addTab(mammalsGroupBox,"Mammals");
     tabsOfAnimals->addTab(snakesGroupBox,"Snakes");
+
+    return tabsOfAnimals;
 
 }
 
@@ -134,8 +160,8 @@ void Widget::createAnimalGroupBox(Animaltype type){
         snakesGroupBox->setLayout(layout);
         break;
     }
-
     }
+
 }
 
 void Widget::changeZooNameSlot(){
@@ -184,7 +210,6 @@ void Widget::feedingSlot(){
         }
     }
 }
-
 
 void Widget::addAnimalSlot(){
 

@@ -10,6 +10,7 @@
 #include "animalinfo.h"
 #include "animalwizard.h"
 #include "feeddialog.h"
+#include "movedialog.h"
 #include <QMap>
 #include <QString>
 #include <QtWidgets>
@@ -22,31 +23,36 @@ class Widget : public QWidget {
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
+    QStringList getZooNames() const;
 
 private slots:
+    void changeZoo(int index);
     void changeZooNameSlot();
     void feedingSlot();
     void addAnimalSlot();
+    void moveAnimalSlot();
 
 private:
     Ui::Widget *ui;
 
-    Zoo* zoo;
-    static QMap <QString, Zoo*> zoos;
+    static QVector <Zoo*> mZoos;
+    Zoo* mZoo;
+    QComboBox* listOfZoo;
+
+    MoveDialog* moveDialog;
     FeedDialog* feedDialog;
     AnimalWizard* wizard;
 
     QGroupBox* createZooGroupBox();
-    QGroupBox* createButtonsGroupBox();
-    QTabWidget* createTabsOfAnimals();
-
-    void createAnimalGroupBox(Animaltype type);
-
     QGroupBox* zooGroupBox;
 
+    QGroupBox* createButtonsGroupBox();
     QGroupBox* buttonsGroupBox;
 
+    QTabWidget* createTabsOfAnimals();
     QTabWidget* tabsOfAnimals;
+
+    void createAnimalGroupBox(Animaltype type);
 
     QGroupBox* birdsGroupBox;
     QComboBox* listOfBirds;

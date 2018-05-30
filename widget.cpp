@@ -1,8 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-QMap <QString, Zoo*> Widget::zoos = {{"Zoo1",new Zoo("Zoo1")},
-                                     {"Zoo2",new Zoo("Zoo2")} };
+QVector <Zoo*> Widget::mZoos = { new Zoo("Zoo1"),new Zoo("Zoo2"),new Zoo("Zoo3") };
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),ui(new Ui::Widget){
@@ -14,31 +13,50 @@ Widget::Widget(QWidget *parent) :
     mainLayout->addWidget(createTabsOfAnimals(),1,0);
     mainLayout->addWidget(createButtonsGroupBox(),1,1);
 
-    zoo = zoos.begin().value();
+    mZoo = mZoos[0];
 
     setLayout(mainLayout);
 
-    setWindowTitle(zoo->getZooName());
+    setWindowTitle(mZoo->getZooName());
     setWindowIcon(QIcon(":/images/zoo_icon.png"));
 }
 
-Widget::~Widget(){
-    delete ui;
+QStringList Widget::getZooNames() const{
+    QStringList list;
+
+    foreach(Zoo* zoo0, mZoos){
+        if(mZoo->getZooName() != zoo0->getZooName())
+            list << zoo0->getZooName();
+    }
+
+    return list;
+}
+
+void Widget::changeZoo(int index){
+
+    listOfBirds->clear();
+    listOfMammals->clear();
+    listOfSnakes->clear();
+
+    mZoo = mZoos[index];
+
+    listOfBirds->addItems(mZoo->getSpecificNames(BIRD));
+    listOfMammals->addItems(mZoo->getSpecificNames(MAMMAL));
+    listOfSnakes->addItems(mZoo->getSpecificNames(SNAKE));
+
+    setWindowTitle(mZoo->getZooName());
 }
 
 QGroupBox* Widget::createZooGroupBox(){
     zooGroupBox = new QGroupBox("Select zoo:");
     QVBoxLayout *layout = new QVBoxLayout;
 
-    QComboBox* listOfZoo = new QComboBox;
-    listOfZoo->addItems(zoos.keys());
+    listOfZoo = new QComboBox;
+    foreach (Zoo* zoo0, mZoos) {
+        listOfZoo->addItem(zoo0->getZooName());
+    }
 
-    connect(listOfZoo, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
-            [=](const QString &text){
-                auto it = zoos.find(text);
-                zoo = it.value();
-                setWindowTitle(zoo->getZooName());
-    });
+    connect(listOfZoo,SIGNAL(currentIndexChanged(int)),this, SLOT(changeZoo(int)));
 
     layout->addWidget(listOfZoo);
     zooGroupBox->setLayout(layout);
@@ -83,8 +101,8 @@ QTabWidget* Widget::createTabsOfAnimals(){
 }
 
 void Widget::createAnimalGroupBox(Animaltype type){
+    QTimer* updateTimer = new QTimer;
 
-    QTimer* timer = new QTimer;
     switch (type)
     {
     case BIRD:
@@ -94,19 +112,32 @@ void Widget::createAnimalGroupBox(Animaltype type){
         listOfBirds = new QComboBox;
         birdInfo = new AnimalInfo(BIRD);
 
-        connect(listOfBirds, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
-                [=](const QString &text){birdInfo->setAnimalInfo(BIRD, zoo->getAnimal(text));});
+        QPushButton* moveAnimalButton = new QPushButton("Move to another zoo");
+        moveAnimalButton->setDisabled(true);
+        connect(moveAnimalButton, SIGNAL(clicked()), SLOT(moveAnimalSlot()));
 
-        connect(timer,&QTimer::timeout,
+        connect(listOfBirds, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
+                [=](const QString &text){
+                    if(listOfBirds->count()){
+                        birdInfo->setAnimalInfo(BIRD, mZoo->getAnimal(text));
+                        moveAnimalButton->setDisabled(false);
+                    } else{
+                        birdInfo->clearAnimalInfo(BIRD);
+                        moveAnimalButton->setDisabled(true);
+                }
+        });
+        connect(updateTimer,&QTimer::timeout,
                 [=]() {
                     if(listOfBirds->count())
-                        birdInfo->setAnimalInfo(BIRD, zoo->getAnimal(listOfBirds->currentText()));
+                        birdInfo->setAnimalInfo(BIRD, mZoo->getAnimal(listOfBirds->currentText()));
+                    else
+                        birdInfo->clearAnimalInfo(BIRD);
         });
-        timer->start(1000);
+        updateTimer->start(1000);
 
         layout->addWidget(listOfBirds);
         layout->addWidget(birdInfo->getBirdInfo());
-
+        layout->addWidget(moveAnimalButton);
 
         birdsGroupBox->setLayout(layout);
         break;
@@ -119,18 +150,32 @@ void Widget::createAnimalGroupBox(Animaltype type){
         listOfMammals = new QComboBox;
         mammalInfo = new AnimalInfo(MAMMAL);
 
-        connect(listOfMammals, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
-                [=](const QString &text){mammalInfo->setAnimalInfo(MAMMAL, zoo->getAnimal(text));});
+        QPushButton* moveAnimalButton = new QPushButton("Move to another zoo");
+        moveAnimalButton->setDisabled(true);
+        connect(moveAnimalButton, SIGNAL(clicked()), SLOT(moveAnimalSlot()));
 
-        connect(timer,&QTimer::timeout,
+        connect(listOfMammals, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
+                [=](const QString &text){
+                    if(listOfMammals->count()){
+                        mammalInfo->setAnimalInfo(MAMMAL, mZoo->getAnimal(text));
+                        moveAnimalButton->setDisabled(false);
+                    } else{
+                        mammalInfo->clearAnimalInfo(MAMMAL);
+                        moveAnimalButton->setDisabled(true);
+                }
+        });
+        connect(updateTimer,&QTimer::timeout,
                 [=]() {
                     if(listOfMammals->count())
-                        mammalInfo->setAnimalInfo(MAMMAL, zoo->getAnimal(listOfMammals->currentText()));
+                        mammalInfo->setAnimalInfo(MAMMAL, mZoo->getAnimal(listOfMammals->currentText()));
+                    else
+                        mammalInfo->clearAnimalInfo(MAMMAL);
         });
-        timer->start(1000);
+        updateTimer->start(1000);
 
         layout->addWidget(listOfMammals);
         layout->addWidget(mammalInfo->getMammalInfo());
+        layout->addWidget(moveAnimalButton);
 
         mammalsGroupBox->setLayout(layout);
         break;
@@ -144,18 +189,33 @@ void Widget::createAnimalGroupBox(Animaltype type){
         listOfSnakes = new QComboBox;
         snakeInfo = new AnimalInfo(SNAKE);
 
-        connect(listOfSnakes, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
-                [=](const QString &text){snakeInfo->setAnimalInfo(SNAKE, zoo->getAnimal(text));});
+        QPushButton* moveAnimalButton = new QPushButton("Move to another zoo");
+        moveAnimalButton->setDisabled(true);
+        connect(moveAnimalButton, SIGNAL(clicked()), SLOT(moveAnimalSlot()));
 
-        connect(timer,&QTimer::timeout,
+        connect(listOfSnakes, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
+                [=](const QString &text){
+                    if(listOfSnakes->count()){
+                        snakeInfo->setAnimalInfo(SNAKE, mZoo->getAnimal(text));
+                        moveAnimalButton->setDisabled(false);
+                    } else{
+                        snakeInfo->clearAnimalInfo(SNAKE);
+                        moveAnimalButton->setDisabled(true);
+                }
+        });
+
+        connect(updateTimer,&QTimer::timeout,
                 [=]() {
                     if(listOfSnakes->count())
-                        snakeInfo->setAnimalInfo(SNAKE, zoo->getAnimal(listOfSnakes->currentText()));
+                        snakeInfo->setAnimalInfo(SNAKE, mZoo->getAnimal(listOfSnakes->currentText()));
+                    else
+                        snakeInfo->clearAnimalInfo(SNAKE);
                 });
-        timer->start(1000);
+        updateTimer->start(1000);
 
         layout->addWidget(listOfSnakes);
         layout->addWidget(snakeInfo->getSnakeInfo());
+        layout->addWidget(moveAnimalButton);
 
         snakesGroupBox->setLayout(layout);
         break;
@@ -173,13 +233,16 @@ void Widget::changeZooNameSlot(){
                                      QLineEdit::Normal,  (bInvalid? "Invalid Name":""), &bOk );
     bInvalid= true;
     }
-    while(!zoo->checkZooName(zooName) && bOk);
+    while(!mZoo->checkZooName(zooName) && bOk);
 
     if(bOk)
     {
-        zoo->setZooName(zooName);
-        setWindowTitle(zoo->getZooName());
+        mZoo->setZooName(zooName);
+        setWindowTitle(mZoo->getZooName());
+
+        listOfZoo->setItemText(mZoos.indexOf(mZoo),mZoo->getZooName());
     }
+
 }
 
 void Widget::feedingSlot(){
@@ -188,7 +251,7 @@ void Widget::feedingSlot(){
     feedDialog->show();
 
     if (feedDialog->exec()){
-        int message = zoo->feeding(feedDialog->getAnimalType(),feedDialog->getFoodType(),feedDialog->getPercentIncrease());
+        int message = mZoo->feeding(feedDialog->getAnimalType(),feedDialog->getFoodType(),feedDialog->getPercentIncrease());
 
         switch(message)
         {
@@ -213,7 +276,7 @@ void Widget::feedingSlot(){
 
 void Widget::addAnimalSlot(){
 
-    wizard = new AnimalWizard(zoo->getAnimalsNames());
+    wizard = new AnimalWizard(mZoo->getAnimalsNames());
     wizard->resize(700,400);
     wizard->show();
 
@@ -229,8 +292,8 @@ void Widget::addAnimalSlot(){
                           wizard->getAnimalWeight(), wizard->getAnimalPercent(), wizard->getAnimalSpecies(),
                           wizard->getAnimalLengthOfWings(), wizard->getAnimalPredator());
 
-        zoo->addAnimal(animal);
-        listOfBirds->addItem(QIcon(":/images/" + animal->getSpecies() + ".png"),animal->getName());
+        mZoo->addAnimal(animal);
+        listOfBirds->addItem(animal->getName());
         break;
         }
 
@@ -241,8 +304,8 @@ void Widget::addAnimalSlot(){
                             wizard->getAnimalMilkPeriod(), wizard->getAnimalPredator());
 
 
-        zoo->addAnimal(animal);
-        listOfMammals->addItem(QIcon(":/images/" + animal->getSpecies() + ".png"),animal->getName());
+        mZoo->addAnimal(animal);
+        listOfMammals->addItem(animal->getName());
 
         break;
         }
@@ -256,8 +319,8 @@ void Widget::addAnimalSlot(){
 
 
 
-        zoo->addAnimal(animal);
-        listOfSnakes->addItem(QIcon(":/images/" + animal->getSpecies() + ".png"),animal->getName());
+        mZoo->addAnimal(animal);
+        listOfSnakes->addItem(animal->getName());
         break;
         }
         }
@@ -281,6 +344,18 @@ void Widget::addAnimalSlot(){
         ageTimer->start(10000);
 
     }
+}
+
+void Widget::moveAnimalSlot(){
+    moveDialog = new MoveDialog(getZooNames());
+    moveDialog->show();
+
+    if(moveDialog->exec())
+    {
+        QString selectedZooName = moveDialog->getSelectedZooName();
     }
+}
 
-
+Widget::~Widget(){
+    delete ui;
+}

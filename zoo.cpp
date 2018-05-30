@@ -19,6 +19,17 @@ QList<QString> Zoo::getAnimalsNames() const{
     return mAnimals.uniqueKeys();
 }
 
+QStringList Zoo::getSpecificNames(Animaltype type) const{
+    QStringList list;
+    for(auto i = mAnimals.begin(); i != mAnimals.end();i++)
+    {
+         if((i.value()->getType() == type))
+             list << i.value()->getName();
+    }
+    return list;
+}
+
+
 int Zoo::feeding(Animaltype type,const QString&  foodType,int percentIncrease){
     int minPercent = 101;
     Animal* hungryAnimal = nullptr;

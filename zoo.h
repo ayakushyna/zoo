@@ -20,6 +20,7 @@ public:
     void setZooName(const QString& zooName);
     QString getZooName()const;
     QList<QString> getAnimalsNames() const;
+    QStringList getSpecificNames(Animaltype type) const;
     void addAnimal( Animal* animal);
     Animal* getAnimal(const QString& name) const;
     int feeding(Animaltype type,const QString&  foodType,int percentIncrease);

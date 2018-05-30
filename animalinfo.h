@@ -23,6 +23,7 @@ public:
 
 public slots:
     void setAnimalInfo(Animaltype type,Animal* animal);
+    void clearAnimalInfo(Animaltype type);
 
 private:
     QLabel* currImage;

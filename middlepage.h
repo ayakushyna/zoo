@@ -7,10 +7,6 @@
 #include <QVector>
 #include <QString>
 #include <QtWidgets>
-class QVBoxLayout;
-class QRadioButton;
-
-
 
 class MiddlePage: public QWizardPage {
     Q_OBJECT

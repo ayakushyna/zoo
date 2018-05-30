@@ -1,7 +1,7 @@
 #include "infopage.h"
 
 InfoPage::InfoPage( int path,const QList <QString>& animalsNames,QWidget* parent)
-: QWizardPage( parent ) , path( path ),mAnimalsNames(animalsNames) {
+: QWizardPage( parent ), path( path ), mAnimalsNames(animalsNames) {
 
     setCommitPage(true);
     setTitle("Animal Info");
@@ -168,7 +168,7 @@ bool InfoPage::validatePage(){
     nameLineEdit->setFocus();
 
     bool b2 = checkYears(yearsLineEdit->text().toInt());
-    monthsErrorLabel->setText(b2? "" : "Invalid years.");
+    yearsErrorLabel->setText(b2? "" : "Invalid years.");
     yearsLineEdit->setFocus();
 
     bool b3 = checkMonths(monthsLineEdit->text().toInt());

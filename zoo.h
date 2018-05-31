@@ -16,12 +16,14 @@ class Zoo
 public:
     Zoo();
     Zoo(const QString& zooName);
+
     bool checkZooName(const QString& zooName);
     void setZooName(const QString& zooName);
     QString getZooName()const;
     QList<QString> getAnimalsNames() const;
     QStringList getSpecificNames(Animaltype type) const;
     void addAnimal( Animal* animal);
+    void removeAnimal( const QString& name);
     Animal* getAnimal(const QString& name) const;
     int feeding(Animaltype type,const QString&  foodType,int percentIncrease);
 

@@ -51,6 +51,9 @@ void Zoo::addAnimal( Animal* animal){
     mAnimals.insert(animal->getName(),animal);
 }
 
+void Zoo::removeAnimal( const QString& name){
+    mAnimals.remove(name);
+}
 
 Animal* Zoo::getAnimal(const QString& name) const{
     return *(mAnimals.find(name));

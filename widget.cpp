@@ -11,7 +11,7 @@ Widget::Widget(QWidget *parent) :
     QGridLayout *mainLayout = new QGridLayout;
     mainLayout->addWidget(createZooGroupBox(),0,0);
     mainLayout->addWidget(createTabsOfAnimals(),1,0);
-    mainLayout->addWidget(createButtonsGroupBox(),1,1);
+    mainLayout->addWidget(createButtonsGroupBox(),0,1,2,1);
 
     mZoo = mZoos[0];
 
@@ -21,31 +21,6 @@ Widget::Widget(QWidget *parent) :
     setWindowIcon(QIcon(":/images/zoo_icon.png"));
 }
 
-QStringList Widget::getZooNames() const{
-    QStringList list;
-
-    foreach(Zoo* zoo0, mZoos){
-        if(mZoo->getZooName() != zoo0->getZooName())
-            list << zoo0->getZooName();
-    }
-
-    return list;
-}
-
-void Widget::changeZoo(int index){
-
-    listOfBirds->clear();
-    listOfMammals->clear();
-    listOfSnakes->clear();
-
-    mZoo = mZoos[index];
-
-    listOfBirds->addItems(mZoo->getSpecificNames(BIRD));
-    listOfMammals->addItems(mZoo->getSpecificNames(MAMMAL));
-    listOfSnakes->addItems(mZoo->getSpecificNames(SNAKE));
-
-    setWindowTitle(mZoo->getZooName());
-}
 
 QGroupBox* Widget::createZooGroupBox(){
     zooGroupBox = new QGroupBox("Select zoo:");
@@ -224,6 +199,32 @@ void Widget::createAnimalGroupBox(Animaltype type){
 
 }
 
+QStringList Widget::getZooNames() const{
+    QStringList list;
+
+    foreach(Zoo* zoo0, mZoos){
+        if(mZoo->getZooName() != zoo0->getZooName())
+            list << zoo0->getZooName();
+    }
+
+    return list;
+}
+
+void Widget::changeZoo(int index){
+
+    listOfBirds->clear();
+    listOfMammals->clear();
+    listOfSnakes->clear();
+
+    mZoo = mZoos[index];
+
+    listOfBirds->addItems(mZoo->getSpecificNames(BIRD));
+    listOfMammals->addItems(mZoo->getSpecificNames(MAMMAL));
+    listOfSnakes->addItems(mZoo->getSpecificNames(SNAKE));
+
+    setWindowTitle(mZoo->getZooName());
+}
+
 void Widget::changeZooNameSlot(){
     bool bOk, bInvalid = false;
     QString zooName;
@@ -353,6 +354,60 @@ void Widget::moveAnimalSlot(){
     if(moveDialog->exec())
     {
         QString selectedZooName = moveDialog->getSelectedZooName();
+        QString currAnimalName;
+
+        switch(tabsOfAnimals->currentIndex()+1)
+        {
+        case BIRD:
+        {
+            currAnimalName = listOfBirds->currentText();
+            listOfBirds->removeItem(listOfBirds->currentIndex());
+            break;
+        }
+        case MAMMAL:
+        {
+            currAnimalName = listOfMammals->currentText();
+            listOfMammals->removeItem(listOfMammals->currentIndex());
+            break;
+        }
+        case SNAKE:
+        {
+            currAnimalName = listOfSnakes->currentText();
+            listOfSnakes->removeItem(listOfSnakes->currentIndex());
+            break;
+        }
+        }
+
+        Animal* currAnimal = mZoo->getAnimal(currAnimalName);
+        mZoo->removeAnimal(currAnimalName);
+
+        foreach (auto zoo, mZoos) {
+            if(zoo->getZooName() == selectedZooName){
+                if(zoo->getAnimalsNames().contains(currAnimalName)){
+
+                    QMessageBox* msgBox = new QMessageBox;
+                    msgBox->setText("Animal with this name has already existed in that zoo.");
+                    msgBox->setIcon(QMessageBox::Warning);
+                    msgBox->setInformativeText("Do you want to rename the animal or remove it?");
+                    msgBox->addButton("Rename", QMessageBox::AcceptRole);
+                    msgBox->addButton("Remove", QMessageBox::RejectRole);
+                    msgBox->setWindowIcon(QIcon(":/images/zoo_icon.png"));
+                    msgBox->setWindowTitle("Warning");
+
+                    int res = msgBox->exec();
+                    if(res == QMessageBox::RejectRole)
+                        break;
+
+                    renameDialog = new RenameDialog(currAnimal,zoo);
+                    renameDialog->show();
+                    if(renameDialog->exec())
+                        zoo->addAnimal(currAnimal);
+                    break;
+                }
+                zoo->addAnimal(currAnimal);
+                break;
+            }
+        }
     }
 }
 

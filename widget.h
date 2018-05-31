@@ -11,6 +11,7 @@
 #include "animalwizard.h"
 #include "feeddialog.h"
 #include "movedialog.h"
+#include "renamedialog.h"
 #include <QMap>
 #include <QString>
 #include <QtWidgets>
@@ -24,6 +25,7 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
     QStringList getZooNames() const;
+    void renameAnimalNameDialog(Animal* animal);
 
 private slots:
     void changeZoo(int index);
@@ -40,6 +42,7 @@ private:
     QComboBox* listOfZoo;
 
     MoveDialog* moveDialog;
+    RenameDialog* renameDialog;
     FeedDialog* feedDialog;
     AnimalWizard* wizard;
 

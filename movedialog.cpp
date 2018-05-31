@@ -24,6 +24,7 @@ MoveDialog::MoveDialog(QStringList list,QWidget *parent)
     layout->addWidget(listOfZoos);
     layout->addWidget(buttonBox);
 
+    mSelectedZooName = listOfZoos->currentText();
     setLayout(layout);
     setWindowIcon(QIcon(":/images/zoo_icon.png"));
 

@@ -8,9 +8,6 @@
 #include <QtWidgets>
 #include "shared_defs.h"
 
-class MiddlePage;
-class InfoPage;
-class FinalPage;
 
 namespace Ui {class AnimalWizard;}
 

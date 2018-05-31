@@ -78,11 +78,11 @@ AnimalInfo::AnimalInfo(Animaltype type)
     }
 }
 
-QGroupBox* AnimalInfo::getBirdInfo(){ return birdInfo;}
+QGroupBox* AnimalInfo::getBirdInfo() const { return birdInfo;}
 
-QGroupBox* AnimalInfo::getMammalInfo(){ return mammalInfo;}
+QGroupBox* AnimalInfo::getMammalInfo() const { return mammalInfo;}
 
-QGroupBox* AnimalInfo::getSnakeInfo(){ return snakeInfo;}
+QGroupBox* AnimalInfo::getSnakeInfo() const { return snakeInfo;}
 
 void AnimalInfo::setAnimalInfo(Animaltype type,Animal* animal)
 {
@@ -148,6 +148,5 @@ void AnimalInfo::clearAnimalInfo(Animaltype type){
     }
     }
 }
-
 
 AnimalInfo::~AnimalInfo(){}

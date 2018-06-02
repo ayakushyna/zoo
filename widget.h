@@ -8,6 +8,9 @@
 #include "snake.h"
 #include "zoo.h"
 #include "animalinfo.h"
+#include "snakeinfo.h"
+#include "mammalinfo.h"
+#include "birdinfo.h"
 #include "animalwizard.h"
 #include "feeddialog.h"
 #include "movedialog.h"
@@ -24,14 +27,13 @@ class Widget : public QWidget {
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
-    QStringList getZooNames() const;
-    void renameAnimalNameDialog(Animal* animal);
 
 private slots:
-    void changeZoo(int index);
+    void changeZooSlot(int index);
     void changeZooNameSlot();
     void feedingSlot();
     void addAnimalSlot();
+    void removeAnimalSlot();
     void moveAnimalSlot();
 
 private:
@@ -39,6 +41,8 @@ private:
 
     static QVector <Zoo*> mZoos;
     Zoo* mZoo;
+
+    QStringList getZooNames() const;
     QComboBox* listOfZoo;
 
     MoveDialog* moveDialog;
@@ -55,19 +59,27 @@ private:
     QTabWidget* createTabsOfAnimals();
     QTabWidget* tabsOfAnimals;
 
-    void createAnimalGroupBox(Animaltype type);
-
+    template<class T>
+    QGroupBox* createAnimalGroupBox(QComboBox* listOfAnimals, T* animalInfo);
     QGroupBox* birdsGroupBox;
     QComboBox* listOfBirds;
-    AnimalInfo* birdInfo;
+    BirdInfo* birdInfo;
 
     QGroupBox* mammalsGroupBox;
     QComboBox* listOfMammals;
-    AnimalInfo* mammalInfo;
+    MammalInfo* mammalInfo;
 
     QGroupBox* snakesGroupBox;
     QComboBox* listOfSnakes;
-    AnimalInfo* snakeInfo;
+    SnakeInfo* snakeInfo;
+
+    QComboBox* getCurrentListOfAnimals()const;
+    QMessageBox* createNameWarningBox();
+
+    void setCurrentAnimalName(QComboBox* listOfAnimals);
+    QString currAnimalName;
+
+    void removeCurrentAnimalName(QComboBox* listOfAnimals);
 };
 
 #endif // WIDGET_H

@@ -14,16 +14,13 @@
 class AnimalInfo
 {
 public:
-    AnimalInfo(Animaltype type);
+    AnimalInfo();
     ~AnimalInfo();
 
-    QGroupBox* getBirdInfo() const;
-    QGroupBox* getMammalInfo() const;
-    QGroupBox* getSnakeInfo() const;
-
+    QVBoxLayout *layout;
 public slots:
-    void setAnimalInfo(Animaltype type,Animal* animal);
-    void clearAnimalInfo(Animaltype type);
+    void setAnimalInfo(Animal* animal);
+    void clearAnimalInfo();
 
 private:
     QLabel* currImage;
@@ -33,18 +30,6 @@ private:
     QLabel* currWeight;
     QLabel* currPercentOfFeeding;
     QLabel* currSpecies;
-
-    QLabel* currLengthOfWings;
-    QLabel* currPredator;
-
-    QLabel* currMilkPeriod;
-
-    QLabel* currLength;
-    QLabel* currPoisonous;
-
-    QGroupBox* birdInfo;
-    QGroupBox* mammalInfo;
-    QGroupBox* snakeInfo;
 
 };
 

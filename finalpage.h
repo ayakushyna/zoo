@@ -4,13 +4,12 @@
 #include "shared_defs.h"
 #include <QWizard>
 #include <QtWidgets>
-class QVBoxLayout;
+
 class FinalPage:public QWizardPage {
     Q_OBJECT
 
 public:
     FinalPage( QWidget* parent = 0 );
-
     ~FinalPage();
 
 };

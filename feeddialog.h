@@ -7,6 +7,7 @@
 #include "mammal.h"
 #include "snake.h"
 #include "zoo.h"
+#include "food.h"
 #include "animalinfo.h"
 #include "animalwizard.h"
 #include <QtWidgets>
@@ -21,19 +22,15 @@ public:
     ~FeedDialog();
     void accept();
 
-    Animaltype getAnimalType() const;
-    QString getFoodType() const;
-    int getPercentIncrease() const;
+    Food getSelectedFood() const;
 
 private:
-    static const QMap<QString,int> mFood ;
+    static const QVector<Food> mFoods ;
 
-    Animaltype mAnimalType;
-    QString mFoodType;
-    int mPercentIncrease;
+    Food mFood;
 
     QButtonGroup* animalButtons;
-    QComboBox* listOfFoodTypes;
+    QComboBox* listOfFood;
 };
 
 #endif // FEEDDIALOG_H

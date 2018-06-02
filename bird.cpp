@@ -2,7 +2,7 @@
 
 Bird::Bird(): Animal(), mLengthOfWings(0), mPredator(0) {}
 
-Bird::Bird(const QString& name,Animaltype type, int years, int months,double weight,
+Bird::Bird(const QString& name,AnimalType type, int years, int months,double weight,
            int percentOfFeeding, const QString& species,double lengthOfWings,bool predator)
     :Animal( name, type, years, months, weight,   percentOfFeeding, species),
       mLengthOfWings(lengthOfWings),mPredator(predator){}
@@ -18,17 +18,17 @@ void Bird::setPredator(bool predator){
 
 bool Bird::getPredator() const { return mPredator;}
 
-bool Bird::feed(const QString& foodType, int percentIncrease){
-    if(mPredator && foodType != "Fish")
+bool Bird::feed(const Food& food){
+    if(mPredator && food.getFoodName() != "Fish")
         return false;
 
-    if(!mPredator && foodType == "Fish")
+    if(!mPredator && food.getFoodName() == "Fish")
         return false;
 
-    if(mPercentOfFeeding+percentIncrease > 100){
+    if(mPercentOfFeeding+food.getFoodPercentIncrease() > 100){
         mPercentOfFeeding = 100;
     }
-    else mPercentOfFeeding+=percentIncrease;
+    else mPercentOfFeeding+=food.getFoodPercentIncrease();
 
     return true;
 }

@@ -21,11 +21,11 @@ public:
     void setZooName(const QString& zooName);
     QString getZooName()const;
     QList<QString> getAnimalsNames() const;
-    QStringList getSpecificNames(Animaltype type) const;
+    QStringList getSpecificNames(AnimalType type) const;
     void addAnimal( Animal* animal);
     void removeAnimal( const QString& name);
     Animal* getAnimal(const QString& name) const;
-    int feeding(Animaltype type,const QString&  foodType,int percentIncrease);
+    int feeding(const Food& food);
 
 private:
     QString mZooName;

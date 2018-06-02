@@ -1,8 +1,8 @@
 #include "animal.h"
 
-Animal::Animal(): mName(),mType(), mYears(0), mMonths(0), mWeight(0),  mPercentOfFeeding(0), mSpecies(){}
+Animal::Animal(): mName(),mType(UNKNOWN), mYears(0), mMonths(0), mWeight(0),  mPercentOfFeeding(0), mSpecies(){}
 
-Animal::Animal(const QString& name,Animaltype type, int years, int months,
+Animal::Animal(const QString& name,AnimalType type, int years, int months,
                double weight, int percentOfFeeding,const QString& species)
   : mName(name), mType(type), mYears(years), mMonths(months),
     mWeight(weight), mPercentOfFeeding(percentOfFeeding), mSpecies(species){}
@@ -15,11 +15,11 @@ void Animal::setName(const QString& name){
 
 QString Animal::getName() const{return mName;}
 
-void Animal::setType(Animaltype type){
+void Animal::setType(AnimalType type){
     mType = type;
 }
 
-Animaltype Animal::getType() const{return mType;}
+AnimalType Animal::getType() const{return mType;}
 
 void Animal::setYears(int years){
     mYears = years;
@@ -51,14 +51,14 @@ void Animal::setSpecies(const QString& species){
 
 QString Animal::getSpecies() const{return mSpecies;}
 
-void Animal::riseAge(){
+void Animal::increaseAge(){
     if(++mMonths > 11){
         mMonths = 0;
         ++mYears;
     }
 }
 
-void Animal::declinePercentOfFeeding(){
+void Animal::decreasePercentOfFeeding(){
     --mPercentOfFeeding;
 }
 

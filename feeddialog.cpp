@@ -18,11 +18,18 @@ FeedDialog::FeedDialog(QWidget *parent)
 
     QList <QStringList> foodTypes;
     foodTypes.push_back(QStringList(" "));
-    QStringList birdFood = {"Seeds","Millet","Fish"};
+
+    QStringList birdFood, mammalFood,snakeFood ;
+    foreach(Food food, mFoods){
+        if(food.getFoodAnimalType() == BIRD)
+            birdFood << food.getFoodName();
+        if(food.getFoodAnimalType() == MAMMAL)
+            mammalFood << food.getFoodName();
+        if(food.getFoodAnimalType() == SNAKE)
+            snakeFood << food.getFoodName();
+    }
     foodTypes.push_back(birdFood);
-    QStringList mammalFood = {"Grass","Meat","Milk"};
     foodTypes.push_back(mammalFood);
-    QStringList snakeFood = {"Insects", "Mouse"};
     foodTypes.push_back(snakeFood);
 
     QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
@@ -34,13 +41,13 @@ FeedDialog::FeedDialog(QWidget *parent)
     buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
 
     QLabel* foodTypeLabel = new QLabel("Choose a type of food:");
-    listOfFoodTypes = new QComboBox;
-    listOfFoodTypes->addItems(foodTypes[0]);
+    listOfFood = new QComboBox;
+    listOfFood->addItems(foodTypes[0]);
 
     connect(animalButtons, static_cast<void(QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
             [=](int id){
-                listOfFoodTypes->clear();
-                listOfFoodTypes->addItems(foodTypes[id]);
+                listOfFood->clear();
+                listOfFood->addItems(foodTypes[id]);
                 buttonBox->button(QDialogButtonBox::Ok)->setDisabled(false);
     });
 
@@ -49,28 +56,30 @@ FeedDialog::FeedDialog(QWidget *parent)
     layout->addWidget(mammalButton,1,1);
     layout->addWidget(snakeButton,2,1);
     layout->addWidget(foodTypeLabel,3,0);
-    layout->addWidget(listOfFoodTypes,3,1);
+    layout->addWidget(listOfFood,3,1);
     layout->addWidget(buttonBox,4,1);
 
     setLayout(layout);
     setWindowIcon(QIcon(":/images/zoo_icon.png"));
 }
 
-const QMap<QString,int> FeedDialog::mFood = {{ "Seeds", 30 }, { "Millet", 20 }, { "Fish", 50 },
-                                            { "Grass", 30 }, { "Meat", 50 }, { "Milk", 40 },
-                                            { "Insects", 30 }, { "Mouse", 50 }};
+const QVector<Food> FeedDialog::mFoods = { Food(BIRD, "Seeds", 30),Food(BIRD, "Millet", 20),Food(BIRD, "Fish", 50),
+                                           Food(MAMMAL, "Grass", 30),Food(MAMMAL, "Meat", 50),Food(MAMMAL, "Milk", 40),
+                                           Food(SNAKE, "Insects", 30),Food(SNAKE, "Mouse", 50)};
 
 void FeedDialog::accept(){
-    mAnimalType = static_cast<Animaltype>(animalButtons->checkedId());
-    mFoodType = listOfFoodTypes->currentText();
-    mPercentIncrease = mFood.value(listOfFoodTypes->currentText());
+    QString name = listOfFood->currentText();
+
+    foreach(Food food, mFoods){
+        if(name == food.getFoodName()){
+            mFood = food;
+            break;
+        }
+    }
+
     QDialog::accept();
 }
 
-Animaltype FeedDialog::getAnimalType ()const{ return mAnimalType; }
-
-QString FeedDialog::getFoodType ()const{ return mFoodType; }
-
-int FeedDialog::getPercentIncrease ()const{ return mPercentIncrease; }
+Food FeedDialog::getSelectedFood() const { return mFood; }
 
 FeedDialog::~FeedDialog() {}

@@ -4,19 +4,20 @@
 #include <QString>
 #include <QtWidgets>
 #include "shared_defs.h"
+#include "food.h"
 
 class Animal
 {
 
 public:
     Animal();
-    Animal(const QString& name,Animaltype type, int years, int months, double weight, int percentOfFeeding,const QString& species);
+    Animal(const QString& name,AnimalType type, int years, int months, double weight, int percentOfFeeding,const QString& species);
     virtual ~Animal();
 
     void setName(const QString& name);
     QString getName() const;
-    void setType(Animaltype type);
-    Animaltype getType() const;
+    void setType(AnimalType type);
+    AnimalType getType() const;
     void setYears(int years);
     int getYears() const;
     void setMonths(int months);
@@ -28,14 +29,14 @@ public:
     void setSpecies(const QString& species);
     QString getSpecies() const;
 
-    void riseAge();
-    void declinePercentOfFeeding();
-    virtual bool feed(const QString& foodType, int percentIncrease) = 0;
+    void increaseAge();
+    void decreasePercentOfFeeding();
+    virtual bool feed(const Food& food) = 0;
     void moveToAnotherZoo();
 
 protected:
     QString mName;
-    Animaltype mType;
+    AnimalType mType;
     int mYears, mMonths;
     double mWeight;
     int mPercentOfFeeding;

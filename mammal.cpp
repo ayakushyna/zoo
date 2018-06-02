@@ -2,7 +2,7 @@
 
 Mammal::Mammal(): Animal(), mMilkPeriod(0), mPredator(0) {}
 
-Mammal::Mammal(const QString& name,Animaltype type,  int years, int months, double weight,
+Mammal::Mammal(const QString& name,AnimalType type,  int years, int months, double weight,
                int percentOfFeeding, const QString& species, int milkPeriod, bool predator)
     :Animal( name, type, years, months, weight, percentOfFeeding, species),
       mMilkPeriod(milkPeriod), mPredator(predator){}
@@ -20,21 +20,21 @@ void Mammal::setPredator(bool predator){
 
 bool Mammal::getPredator() const { return mPredator;}
 
-bool Mammal::feed(const QString& foodType, int percentIncrease){
-    if(( mYears == 0 && mMonths <= mMilkPeriod && foodType != "Milk") ||
-      (( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod) ) && foodType == "Milk"))
+bool Mammal::feed(const Food& food){
+    if(( mYears == 0 && mMonths <= mMilkPeriod && food.getFoodName() != "Milk") ||
+      (( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod) ) && food.getFoodName() == "Milk"))
         return false;
 
-    if(mPredator && ( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod)) && foodType != "Meat")
+    if(mPredator && ( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod)) && food.getFoodName() != "Meat")
         return false;
 
-    if(!mPredator && foodType == "Meat")
+    if(!mPredator && food.getFoodName() == "Meat")
         return false;
 
-    if(mPercentOfFeeding+percentIncrease > 100){
+    if(mPercentOfFeeding+food.getFoodPercentIncrease() > 100){
         mPercentOfFeeding = 100;
     }
-    else mPercentOfFeeding+=percentIncrease;
+    else mPercentOfFeeding+=food.getFoodPercentIncrease();
 
     return true;
 }

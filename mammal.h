@@ -7,7 +7,7 @@ class Mammal:public Animal
 {
 public:
     Mammal();
-    Mammal(const QString& name,Animaltype type, int years, int months, double weight,
+    Mammal(const QString& name,AnimalType type, int years, int months, double weight,
            int percentOfFeeding,const QString& species,int milkPeriod, bool predator);
     ~Mammal();
 
@@ -16,7 +16,7 @@ public:
     void setPredator(bool predator);
     bool getPredator()const;
 
-    bool feed(const QString& foodType, int percentIncrease);
+    bool feed(const Food& food);
 private:
     int mMilkPeriod;
     bool mPredator;

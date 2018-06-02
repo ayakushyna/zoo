@@ -3,11 +3,12 @@
 
 #include "animal.h"
 #include "shared_defs.h"
+
 class Snake:public Animal
 {
 public:
     Snake();
-    Snake(const QString& name, Animaltype type, int years, int months, double weight,
+    Snake(const QString& name, AnimalType type, int years, int months, double weight,
           int percentOfFeeding, const QString& species, double length, bool poisonous);
     ~Snake();
 
@@ -16,7 +17,7 @@ public:
     void setPoisonous(bool poisonous);
     bool getPoisonous() const;
 
-    bool feed(const QString& foodType, int percentIncrease);
+    bool feed(const Food& food);
 
 private:
     double mLength;

@@ -1,6 +1,6 @@
 #include "middlepage.h"
 
-const QMap<QString,Animaltype> MiddlePage::species = {{ "flamingo",BIRD }, { "parrot",BIRD }, {"peacock", BIRD }, { "penguin",BIRD },
+const QMap<QString,AnimalType> MiddlePage::species = {{ "flamingo",BIRD }, { "parrot",BIRD }, {"peacock", BIRD }, { "penguin",BIRD },
                                                       { "elephant",MAMMAL }, { "giraffe",MAMMAL },{ "lion",MAMMAL }, { "monkey",MAMMAL },
                                                       { "anaconda",SNAKE }, { "cobra",SNAKE }};
 
@@ -12,67 +12,43 @@ MiddlePage::MiddlePage( int path, QWidget* parent )
         {
             setTitle("Bird");
             setSubTitle("Choose a new bird, please." );
-            QHBoxLayout* layout = new QHBoxLayout;
-
-            animalButtons = new QButtonGroup;
-            int id = 0;
-
-            for( auto i =  species.begin(); i != species.end(); i++)
-            {
-                if(i.value() == BIRD)
-                {
-                    layout->addWidget(createAnimalGroupBox(i.key(),animalButtons, id));
-                }
-                id++;
-            }
-
-            setLayout(layout);
+            addAnimalRadioButtons(BIRD);
             break;
         }
         case MAMMAL_PAGE:
         {
             setTitle("Mammal");
             setSubTitle("Choose a new mammal, please." );
-            QHBoxLayout* layout = new QHBoxLayout;
-
-            animalButtons = new QButtonGroup;
-            int id = 0;
-
-            for( auto i =  species.begin(); i != species.end(); i++)
-            {
-                if(i.value() == MAMMAL)
-                {
-                    layout->addWidget(createAnimalGroupBox(i.key(),animalButtons, id));
-                }
-                id++;
-            }
-
-            setLayout(layout);
+            addAnimalRadioButtons(MAMMAL);
             break;
         }
         case SNAKE_PAGE:
         {
             setTitle("Snake");
             setSubTitle("Choose a new snake, please." );
-            QHBoxLayout* layout = new QHBoxLayout;
-
-            animalButtons = new QButtonGroup;
-            int id = 0;
-
-            for( auto i =  species.begin(); i != species.end(); i++)
-            {
-                if(i.value() == SNAKE)
-                {
-                    layout->addWidget(createAnimalGroupBox(i.key(),animalButtons, id));
-                }
-                id++;
-            }
-
-            setLayout(layout);
+            addAnimalRadioButtons(SNAKE);
             break;
         }
         }
 
+}
+
+void MiddlePage::addAnimalRadioButtons(AnimalType type){
+    QHBoxLayout* layout = new QHBoxLayout;
+
+    animalButtons = new QButtonGroup;
+    int id = 0;
+
+    for( auto i =  species.begin(); i != species.end(); i++)
+    {
+        if(i.value() == type)
+        {
+            layout->addWidget(createAnimalGroupBox(i.key(),animalButtons, id));
+        }
+        id++;
+    }
+
+    setLayout(layout);
 }
 
  QGroupBox* MiddlePage::createAnimalGroupBox(const QString&  animal,QButtonGroup* buttonGroup, int id)

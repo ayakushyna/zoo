@@ -25,8 +25,9 @@ protected:
     bool validatePage();
 
 private:
-    static const QMap <QString,Animaltype> species ;
+    static const QMap <QString,AnimalType> species ;
     QGroupBox* createAnimalGroupBox(const QString& animal,QButtonGroup* buttonGroup, int id);
+    void addAnimalRadioButtons(AnimalType type);
 
     int path;
     QString animalSpecies;

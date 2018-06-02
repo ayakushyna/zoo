@@ -53,23 +53,24 @@ FeedDialog::FeedDialog(QWidget *parent)
     layout->addWidget(buttonBox,4,1);
 
     setLayout(layout);
+    setWindowIcon(QIcon(":/images/zoo_icon.png"));
 }
 
-const QMap<QString,int> FeedDialog::food = {{ "Seeds", 37 }, { "Millet", 40 }, { "Fish", 40 },
-                                            { "Grass", 15 }, { "Meat", 20 }, { "Milk", 40 },
-                                            { "Insects", 15 }, { "Mouse", 20 }};
+const QMap<QString,int> FeedDialog::mFood = {{ "Seeds", 30 }, { "Millet", 20 }, { "Fish", 50 },
+                                            { "Grass", 30 }, { "Meat", 50 }, { "Milk", 40 },
+                                            { "Insects", 30 }, { "Mouse", 50 }};
 
 void FeedDialog::accept(){
-    animalType = static_cast<Animaltype>(animalButtons->checkedId());
-    foodType = listOfFoodTypes->currentText();
-    percentIncrease = food.value(listOfFoodTypes->currentText());
+    mAnimalType = static_cast<Animaltype>(animalButtons->checkedId());
+    mFoodType = listOfFoodTypes->currentText();
+    mPercentIncrease = mFood.value(listOfFoodTypes->currentText());
     QDialog::accept();
 }
 
-Animaltype FeedDialog::getAnimalType ()const{ return animalType; }
+Animaltype FeedDialog::getAnimalType ()const{ return mAnimalType; }
 
-QString FeedDialog::getFoodType ()const{ return foodType; }
+QString FeedDialog::getFoodType ()const{ return mFoodType; }
 
-int FeedDialog::getPercentIncrease ()const{ return percentIncrease; }
+int FeedDialog::getPercentIncrease ()const{ return mPercentIncrease; }
 
 FeedDialog::~FeedDialog() {}

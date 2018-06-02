@@ -1,16 +1,11 @@
 #ifndef MIDDLEPAGE_H
 #define MIDDLEPAGE_H
 #include "shared_defs.h"
-#include "animalwizard.h"
 #include <QWizardPage>
 #include <QWizard>
 #include <QVector>
 #include <QString>
 #include <QtWidgets>
-class QVBoxLayout;
-class QRadioButton;
-
-
 
 class MiddlePage: public QWizardPage {
     Q_OBJECT

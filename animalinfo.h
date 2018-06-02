@@ -17,12 +17,13 @@ public:
     AnimalInfo(Animaltype type);
     ~AnimalInfo();
 
-    QGroupBox* getBirdInfo();
-    QGroupBox* getMammalInfo();
-    QGroupBox* getSnakeInfo();
+    QGroupBox* getBirdInfo() const;
+    QGroupBox* getMammalInfo() const;
+    QGroupBox* getSnakeInfo() const;
 
 public slots:
     void setAnimalInfo(Animaltype type,Animal* animal);
+    void clearAnimalInfo(Animaltype type);
 
 private:
     QLabel* currImage;

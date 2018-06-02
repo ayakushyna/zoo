@@ -26,11 +26,11 @@ public:
     int getPercentIncrease() const;
 
 private:
-    static const QMap<QString,int> food ;
+    static const QMap<QString,int> mFood ;
 
-    Animaltype animalType;
-    QString foodType;
-    int percentIncrease;
+    Animaltype mAnimalType;
+    QString mFoodType;
+    int mPercentIncrease;
 
     QButtonGroup* animalButtons;
     QComboBox* listOfFoodTypes;

@@ -78,11 +78,11 @@ AnimalInfo::AnimalInfo(Animaltype type)
     }
 }
 
-QGroupBox* AnimalInfo::getBirdInfo(){ return birdInfo;}
+QGroupBox* AnimalInfo::getBirdInfo() const { return birdInfo;}
 
-QGroupBox* AnimalInfo::getMammalInfo(){ return mammalInfo;}
+QGroupBox* AnimalInfo::getMammalInfo() const { return mammalInfo;}
 
-QGroupBox* AnimalInfo::getSnakeInfo(){ return snakeInfo;}
+QGroupBox* AnimalInfo::getSnakeInfo() const { return snakeInfo;}
 
 void AnimalInfo::setAnimalInfo(Animaltype type,Animal* animal)
 {
@@ -118,5 +118,35 @@ void AnimalInfo::setAnimalInfo(Animaltype type,Animal* animal)
 
 }
 
+void AnimalInfo::clearAnimalInfo(Animaltype type){
+    currImage->clear();
+    currName->clear();
+    currYears->clear();
+    currMonths->clear();
+    currWeight->clear();
+    currPercentOfFeeding->clear();
+    currSpecies->clear();
+    switch(type)
+    {
+    case BIRD:
+    {
+        currLengthOfWings->clear();
+        currPredator->clear();
+        break;
+    }
+    case MAMMAL:
+    {
+        currMilkPeriod->clear();
+        currPredator->clear();
+        break;
+    }
+    case SNAKE:
+    {
+        currLength->clear();
+        currPoisonous->clear();
+        break;
+    }
+    }
+}
 
 AnimalInfo::~AnimalInfo(){}

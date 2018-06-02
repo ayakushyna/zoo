@@ -3,7 +3,6 @@
 
 #include <QWizardPage>
 #include "shared_defs.h"
-#include "animalwizard.h"
 #include "zoo.h"
 #include <QWizard>
 #include <QtWidgets>
@@ -11,7 +10,7 @@
 #include <QString>
 #include <QList>
 
-    class AnimalWizard;
+class AnimalWizard;
 
 class InfoPage:public QWizardPage {
     Q_OBJECT

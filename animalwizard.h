@@ -33,10 +33,10 @@ public:
     double getAnimalLength()const;
     bool getAnimalPoisonous()const;
 
-
-
 private:
     Ui::AnimalWizard *ui;
+
+    void setAnimalInfo(InfoPage* iPage, MiddlePage* mPage);
 
     IntroPage* introPage;
     MiddlePage* birdMiddlePage;

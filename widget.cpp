@@ -214,7 +214,7 @@ void Widget::addAnimalSlot(){
 
     if (wizard->exec())
     {
-        Animal* animal;
+        Animal* animal = nullptr;
 
         switch(wizard->getPath())
         {
@@ -311,7 +311,7 @@ QMessageBox* Widget::createNameWarningBox(){
 
     msgBox->setText("Animal with this name has already existed in that zoo.");
     msgBox->setIcon(QMessageBox::Warning);
-    msgBox->setInformativeText("Do you want to rename the animal or remove it?");
+    msgBox->setInformativeText("Do you want to rename the animal?");
     msgBox->addButton("Rename", QMessageBox::AcceptRole);
     msgBox->addButton("Cancel", QMessageBox::RejectRole);
     msgBox->setWindowIcon(QIcon(":/images/zoo_icon.png"));
@@ -345,7 +345,7 @@ void Widget::moveAnimalSlot(){
                 if(zoo->getAnimalsNames().contains(currAnimalName)){
 
                     QMessageBox* msgBox = createNameWarningBox();
-                    if(msgBox->exec()){
+                    if(msgBox->exec() == QMessageBox::AcceptRole){
 
                         renameDialog = new RenameDialog(currAnimal,zoo);
                         renameDialog->show();

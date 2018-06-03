@@ -16,7 +16,7 @@ class InfoPage:public QWizardPage {
     Q_OBJECT
 
 public:
-    InfoPage(int path,const QList <QString>& animalsNames, QWidget* parent = 0 );
+    InfoPage(int path,const QStringList& animalsNames, QWidget* parent = 0 );
     ~InfoPage();
 
     friend  class AnimalWizard;
@@ -26,7 +26,7 @@ protected:
 
 private:
     int path;
-    QList <QString> mAnimalsNames;
+    QStringList mAnimalsNames;
 
     bool checkName(const QString& name);
     QLineEdit *nameLineEdit;

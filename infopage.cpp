@@ -1,6 +1,6 @@
 #include "infopage.h"
 
-InfoPage::InfoPage( int path,const QList <QString>& animalsNames,QWidget* parent)
+InfoPage::InfoPage( int path,const QStringList& animalsNames,QWidget* parent)
 : QWizardPage( parent ), path( path ), mAnimalsNames(animalsNames) {
 
     setCommitPage(true);
@@ -183,7 +183,7 @@ bool InfoPage::validatePage(){
     percentOfFeedingErrorLabel->setText(b5? "" : "Invalid percent.");
     percentOfFeedingLineEdit->setFocus();
 
-    bool b6;
+    bool b6 = false;
 
     switch(path)
     {

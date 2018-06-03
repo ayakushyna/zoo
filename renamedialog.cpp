@@ -11,7 +11,8 @@ RenameDialog::RenameDialog(Animal* animal,Zoo* zoo,QWidget *parent)
     QLineEdit* nameLineEdit = new QLineEdit;
     QLabel* nameErrorLabel = new QLabel;
     nameErrorLabel->setStyleSheet( "color: red; font-size: 8pt;");
-    QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
+    QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
+                                                       |QDialogButtonBox::Cancel);
 
     connect(buttonBox, QDialogButtonBox::accepted,[=](){
         if(checkName(nameLineEdit->text(), zoo)){
@@ -22,6 +23,7 @@ RenameDialog::RenameDialog(Animal* animal,Zoo* zoo,QWidget *parent)
             nameLineEdit->setFocus();
         }
     });
+    connect(buttonBox, SIGNAL(rejected()), SLOT(reject()));
 
      layout->addWidget(nameLabel);
      layout->addWidget(nameLineEdit);

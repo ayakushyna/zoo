@@ -19,10 +19,10 @@ void Bird::setPredator(bool predator){
 bool Bird::getPredator() const { return mPredator;}
 
 bool Bird::feed(const Food& food){
-    if(mPredator && food.getFoodName() != "Fish")
+    if(mPredator && !food.getPredatorFood())
         return false;
 
-    if(!mPredator && food.getFoodName() == "Fish")
+    if(!mPredator && food.getPredatorFood())
         return false;
 
     if(mPercentOfFeeding+food.getFoodPercentIncrease() > 100){

@@ -25,10 +25,10 @@ bool Mammal::feed(const Food& food){
       (( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod) ) && food.getFoodName() == "Milk"))
         return false;
 
-    if(mPredator && ( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod)) && food.getFoodName() != "Meat")
+    if(mPredator && ( mYears > 0 || (mYears == 0 && mMonths >  mMilkPeriod)) && !food.getPredatorFood())
         return false;
 
-    if(!mPredator && food.getFoodName() == "Meat")
+    if(!mPredator && food.getPredatorFood())
         return false;
 
     if(mPercentOfFeeding+food.getFoodPercentIncrease() > 100){

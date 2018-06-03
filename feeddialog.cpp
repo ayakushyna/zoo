@@ -35,8 +35,8 @@ FeedDialog::FeedDialog(QWidget *parent)
     QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
                                                       |QDialogButtonBox::Cancel);
 
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, SIGNAL(accepted()), SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), SLOT(reject()));
 
     buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
 
@@ -63,8 +63,8 @@ FeedDialog::FeedDialog(QWidget *parent)
     setWindowIcon(QIcon(":/images/zoo_icon.png"));
 }
 
-const QVector<Food> FeedDialog::mFoods = { Food(BIRD, "Seeds", 30),Food(BIRD, "Millet", 20),Food(BIRD, "Fish", 50),
-                                           Food(MAMMAL, "Grass", 30),Food(MAMMAL, "Meat", 50),Food(MAMMAL, "Milk", 40),
+const QVector<Food> FeedDialog::mFoods = { Food(BIRD, "Seeds", 30),Food(BIRD, "Millet", 20),Food(BIRD, "Fish", 50,true),
+                                           Food(MAMMAL, "Grass", 30),Food(MAMMAL, "Milk", 40),Food(MAMMAL, "Meat", 50, true),
                                            Food(SNAKE, "Insects", 30),Food(SNAKE, "Mouse", 50)};
 
 void FeedDialog::accept(){

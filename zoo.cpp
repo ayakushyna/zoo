@@ -15,46 +15,67 @@ void Zoo::setZooName(const QString&  zooName){
 
 QString Zoo::getZooName()const{ return mZooName; }
 
-QList<QString> Zoo::getAnimalsNames() const{
-    return mAnimals.uniqueKeys();
+QStringList Zoo::getAnimalsNames() const{
+    QStringList list;
+    foreach(Animal* animal,mAnimals)
+    {
+        list << animal->getName();
+    }
+    return list;
 }
 
 QStringList Zoo::getSpecificNames(AnimalType type) const{
     QStringList list;
-    for(auto i = mAnimals.begin(); i != mAnimals.end();i++)
+    foreach(Animal* animal,mAnimals)
     {
-         if((i.value()->getType() == type))
-             list << i.value()->getName();
+         if((animal->getType() == type))
+             list << animal->getName();
     }
     return list;
 }
 
 
 int Zoo::feeding(const Food& food){
-    int minPercent = 101;
     Animal* hungryAnimal = nullptr;
-    for(auto i = mAnimals.begin(); i != mAnimals.end();i++)
+
+    std::sort(mAnimals.begin(),mAnimals.end(),
+         [](Animal* left, Animal* right){
+        return left->getPercentOfFeeding() < right->getPercentOfFeeding();
+    });
+
+    foreach(Animal* animal,mAnimals)
     {
-        if((i.value()->getType() == food.getFoodAnimalType()) && (i.value()->getPercentOfFeeding() < minPercent)){
-            minPercent = i.value()->getPercentOfFeeding();
-            hungryAnimal = i.value();
+        if((animal->getType() == food.getFoodAnimalType()))
+        {
+            hungryAnimal = animal;
+            if(hungryAnimal->feed(food)) return FED;
         }
     }
 
-    if(hungryAnimal != nullptr)
-        return hungryAnimal->feed(food);
+    if(hungryAnimal == nullptr)
+        return NOANIMAL;
 
-    return NOANIMAL;
+    return UNFED;
 }
 
 void Zoo::addAnimal( Animal* animal){
-    mAnimals.insert(animal->getName(),animal);
+    mAnimals.push_back(animal);
 }
 
-void Zoo::removeAnimal( const QString& name){
-    mAnimals.remove(name);
+void Zoo::removeAnimal( const QString& name ){
+    for(auto i = mAnimals.begin(); i != mAnimals.end();i++){
+        if((*i)->getName() == name ){
+            mAnimals.remove(i-mAnimals.begin());
+            break;
+        }
+    }
 }
 
 Animal* Zoo::getAnimal(const QString& name) const{
-    return *(mAnimals.find(name));
+    foreach(Animal* animal,mAnimals)
+    {
+        if(animal->getName() == name)
+            return animal;
+    }
+    return nullptr;
 }

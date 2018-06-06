@@ -366,5 +366,6 @@ void Widget::moveAnimalSlot(){
 }
 
 Widget::~Widget(){
+    qDeleteAll(mZoos);
     delete ui;
 }

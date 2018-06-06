@@ -79,3 +79,7 @@ Animal* Zoo::getAnimal(const QString& name) const{
     }
     return nullptr;
 }
+
+Zoo::~Zoo(){
+    qDeleteAll(mAnimals);
+}

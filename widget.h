@@ -61,6 +61,7 @@ private:
 
     template<class T>
     QGroupBox* createAnimalGroupBox(QComboBox* listOfAnimals, T* animalInfo);
+    void changeListOfAnimals(QComboBox* listOfAnimals, AnimalType type);
     QGroupBox* birdsGroupBox;
     QComboBox* listOfBirds;
     BirdInfo* birdInfo;

@@ -142,18 +142,16 @@ QStringList Widget::getZooNames() const{
     return list;
 }
 
+void Widget::changeListOfAnimals(QComboBox* listOfAnimals, AnimalType type){
+    listOfAnimals->clear();
+    listOfAnimals->addItems(mZoo->getSpecificNames(type));
+}
+
 void Widget::changeZooSlot(int index){
-
-    listOfBirds->clear();
-    listOfMammals->clear();
-    listOfSnakes->clear();
-
     mZoo = mZoos[index];
-
-    listOfBirds->addItems(mZoo->getSpecificNames(BIRD));
-    listOfMammals->addItems(mZoo->getSpecificNames(MAMMAL));
-    listOfSnakes->addItems(mZoo->getSpecificNames(SNAKE));
-
+    changeListOfAnimals(listOfBirds,BIRD);
+    changeListOfAnimals(listOfMammals,MAMMAL);
+    changeListOfAnimals(listOfSnakes,SNAKE);
     setWindowTitle(mZoo->getZooName());
 }
 

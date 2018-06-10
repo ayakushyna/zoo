@@ -11,7 +11,7 @@ class Animal
 
 public:
     Animal();
-    Animal(const QString& name,AnimalType type, int years, int months, double weight, int percentOfFeeding,const QString& species);
+    Animal(const QString& name, int years, int months, double weight, int percentOfFeeding,const QString& species);
     virtual ~Animal();
 
     void setName(const QString& name);
@@ -29,10 +29,24 @@ public:
     void setSpecies(const QString& species);
     QString getSpecies() const;
 
+    QTimer* getFeedingTimer() const;
+    QTimer* getAgeTimer() const;
+
+    static bool checkName(const QString& name);
+    static bool checkYears(int years);
+    static bool checkMonths(int months);
+    static bool checkWeight(double weight);
+    static bool checkPercentOfFeeding(int percentOfFeeding);
+
     void increaseAge();
     void decreasePercentOfFeeding();
-    virtual bool feed(const Food& food) = 0;
+
     void moveToAnotherZoo();
+
+    virtual bool feed(const Food& food) = 0;
+
+    virtual void read(const QJsonObject &json);
+    virtual void write(QJsonObject &json) const;
 
 protected:
     QString mName;
@@ -41,6 +55,9 @@ protected:
     double mWeight;
     int mPercentOfFeeding;
     QString mSpecies;
+
+    QTimer* feedingTimer;
+    QTimer* ageTimer;
 };
 
 #endif // ANIMAL_H

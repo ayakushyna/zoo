@@ -26,11 +26,12 @@ bool Snake::checkLength(double length){
 }
 
 bool Snake::feed(const Food& food){
+    feedingTimer->stop();
     if(mPercentOfFeeding+food.getFoodPercentIncrease() > 100){
         mPercentOfFeeding = 100;
     }
     else mPercentOfFeeding+=food.getFoodPercentIncrease();
-
+    feedingTimer->start(3000);
     return true;
 }
 

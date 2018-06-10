@@ -31,11 +31,12 @@ bool Bird::feed(const Food& food){
     if(!mPredator && food.getPredatorFood())
         return false;
 
+    feedingTimer->stop();
     if(mPercentOfFeeding+food.getFoodPercentIncrease() > 100){
         mPercentOfFeeding = 100;
     }
     else mPercentOfFeeding+=food.getFoodPercentIncrease();
-
+    feedingTimer->start(3000);
     return true;
 }
 

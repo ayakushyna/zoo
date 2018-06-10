@@ -10,7 +10,7 @@
 #include <iterator>
 #include "shared_defs.h"
 #include <QtAlgorithms>
-
+#include <memory>
 class Zoo
 {
 public:
@@ -18,19 +18,23 @@ public:
     Zoo(const QString& zooName);
     ~Zoo();
 
-    bool checkZooName(const QString& zooName);
+    static bool checkZooName(const QString& zooName);
     void setZooName(const QString& zooName);
     QString getZooName()const;
     QStringList getAnimalsNames() const;
     QStringList getSpecificNames(AnimalType type) const;
-    void addAnimal( Animal* animal);
+    void addAnimal( std::shared_ptr<Animal> animal);
     void removeAnimal( const QString& name);
-    Animal* getAnimal(const QString& name) const;
+
+    std::shared_ptr<Animal> getAnimal(const QString& name) const;
     int feeding(const Food& food);
+
+    void read(const QJsonObject &json);
+    void write(QJsonObject &json) const;
 
 private:
     QString mZooName;
-    QVector<Animal*> mAnimals;
+    QVector<std::shared_ptr<Animal>> mAnimals;
 };
 
 #endif // ZOO_H

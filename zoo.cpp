@@ -17,7 +17,7 @@ QString Zoo::getZooName()const{ return mZooName; }
 
 QStringList Zoo::getAnimalsNames() const{
     QStringList list;
-    foreach(Animal* animal,mAnimals)
+    foreach(auto animal,mAnimals)
     {
         list << animal->getName();
     }
@@ -26,7 +26,7 @@ QStringList Zoo::getAnimalsNames() const{
 
 QStringList Zoo::getSpecificNames(AnimalType type) const{
     QStringList list;
-    foreach(Animal* animal,mAnimals)
+    foreach(auto animal,mAnimals)
     {
          if((animal->getType() == type))
              list << animal->getName();
@@ -36,14 +36,14 @@ QStringList Zoo::getSpecificNames(AnimalType type) const{
 
 
 int Zoo::feeding(const Food& food){
-    Animal* hungryAnimal = nullptr;
+    std::shared_ptr<Animal> hungryAnimal (nullptr) ;
 
     std::sort(mAnimals.begin(),mAnimals.end(),
-         [](Animal* left, Animal* right){
+         [](std::shared_ptr<Animal> left, std::shared_ptr<Animal> right){
         return left->getPercentOfFeeding() < right->getPercentOfFeeding();
     });
 
-    foreach(Animal* animal,mAnimals)
+    foreach(auto animal,mAnimals)
     {
         if((animal->getType() == food.getFoodAnimalType()))
         {
@@ -58,21 +58,24 @@ int Zoo::feeding(const Food& food){
     return UNFED;
 }
 
-void Zoo::addAnimal( Animal* animal){
+void Zoo::addAnimal( std::shared_ptr<Animal> animal){
     mAnimals.push_back(animal);
+     qDebug()<< "After add1" <<  animal.use_count();
+
 }
 
 void Zoo::removeAnimal( const QString& name ){
     for(auto i = mAnimals.begin(); i != mAnimals.end();i++){
         if((*i)->getName() == name ){
+            qDebug()<< "Before remove" <<  (*i).use_count();
             mAnimals.remove(i-mAnimals.begin());
             break;
         }
     }
 }
 
-Animal* Zoo::getAnimal(const QString& name) const{
-    foreach(Animal* animal,mAnimals)
+std::shared_ptr<Animal> Zoo::getAnimal(const QString& name) const{
+    foreach(auto animal,mAnimals)
     {
         if(animal->getName() == name)
             return animal;
@@ -80,6 +83,68 @@ Animal* Zoo::getAnimal(const QString& name) const{
     return nullptr;
 }
 
+void Zoo::read(const QJsonObject &json){
+    if (json.contains("zooName") && json["zooName"].isString())
+            mZooName = json["zooName"].toString();
+
+    if (json.contains("animals") && json["animals"].isArray()) {
+            QJsonArray animalsArray = json["animals"].toArray();
+
+            /*for(auto i = mAnimals.begin();i!= mAnimals.end();i++){
+                if((*i) != nullptr) delete *i;
+            }
+            */
+            mAnimals.clear();
+            mAnimals.reserve(animalsArray.size());
+
+            for (int animalIndex = 0; animalIndex < animalsArray.size(); ++animalIndex) {
+                QJsonObject animalObject = animalsArray[animalIndex].toObject();
+
+                if(animalObject.contains("type")&& animalObject["type"].isDouble()){
+                    std::shared_ptr<Animal> animal (nullptr);
+
+                    switch( animalObject["type"].toInt()){
+                    case BIRD:
+                    {
+                        animal.reset(new Bird);
+                        break;
+                    }
+                    case MAMMAL:
+                    {
+                        animal.reset(new Mammal);
+                        break;
+                    }
+                    case SNAKE:
+                    {
+                         animal.reset(new Snake);
+                         break;
+                    }
+                    }
+
+                animal->read(animalObject);
+                addAnimal(animal);
+                }
+            }
+        }
+}
+
+void Zoo::write(QJsonObject &json) const
+{
+    json["zooName"] = mZooName;
+
+    QJsonArray animalsArray;
+    foreach (auto animal, mAnimals) {
+        QJsonObject animalObject;
+        animal->write(animalObject);
+        animalsArray.append(animalObject);
+    }
+    json["animals"] = animalsArray;
+}
+
 Zoo::~Zoo(){
-    qDeleteAll(mAnimals);
+    /*
+    for(auto i = mAnimals.begin();i!= mAnimals.end();i++){
+        if((*i) != nullptr) delete *i;
+    }
+    */
 }

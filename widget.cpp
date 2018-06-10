@@ -246,18 +246,50 @@ void Widget::feedingSlot(){
 }
 
 void Widget::setTimers(Animal& animal){
+
     connect(animal.getFeedingTimer(),&QTimer::timeout,
             [&animal](){
                 if(animal.getPercentOfFeeding() > 0)
                     animal.decreasePercentOfFeeding();
+                else{
+                    animal.getFeedingTimer()->stop();
+
+                    QMessageBox msgBox;
+                    msgBox.setIcon(QMessageBox::Warning);
+                    msgBox.setWindowIcon(QIcon(":/images/zoo_icon.png"));
+                    msgBox.setWindowTitle("Warning");
+                    msgBox.setText(animal.getName()+" is hungry.\n Feed it as soon as possible.");
+                    msgBox.exec();
+
+                }
 
             });
     animal.getFeedingTimer()->start(3000);
 
     connect(animal.getAgeTimer(),&QTimer::timeout,
-            [&animal](){
+            [=,&animal](){
                 if(animal.getYears() < 100)
                     animal.increaseAge();
+                else{
+
+                    QMessageBox msgBox;
+                    msgBox.setIcon(QMessageBox::Warning);
+                    msgBox.setWindowIcon(QIcon(":/images/zoo_icon.png"));
+                    msgBox.setWindowTitle("Warning");
+                    msgBox.setText(animal.getName()+"'s hour has come to end.\n");
+                    msgBox.exec();
+
+                    foreach(auto zoo, mZoos){
+                        if(zoo->getAnimal(animal.getName())!= nullptr && zoo->getAnimal(animal.getName())->getYears() == 100){
+                            zoo->removeAnimal(animal.getName());
+                            changeListOfAnimals(zoo,listOfBirds,BIRD);
+                            changeListOfAnimals(zoo,listOfMammals,MAMMAL);
+                            changeListOfAnimals(zoo,listOfSnakes,SNAKE);
+                            break;
+                        }
+                    }
+                }
+
 
             });
     animal.getAgeTimer()->start(10000);

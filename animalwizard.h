@@ -1,6 +1,11 @@
 #ifndef ANIMALWIZARD_H
 #define ANIMALWIZARD_H
 
+#include <memory>
+#include "animal.h"
+#include "bird.h"
+#include "mammal.h"
+#include "snake.h"
 #include "intropage.h"
 #include "middlepage.h"
 #include "infopage.h"
@@ -21,6 +26,7 @@ public:
     ~AnimalWizard();
 
     int getPath()const;
+    /*
     QString getAnimalName()const;
     int getAnimalYears()const;
     int getAnimalMonths()const;
@@ -32,7 +38,8 @@ public:
     int getAnimalMilkPeriod()const;
     double getAnimalLength()const;
     bool getAnimalPoisonous()const;
-
+*/
+     Animal& getAnimal() const;
 private:
     Ui::AnimalWizard *ui;
 
@@ -60,6 +67,8 @@ private:
 
     double animalLength;
     bool animalPoisonous;
+
+    std::shared_ptr<Animal> animal;
 };
 
 #endif // ANIMALWIZARD_H

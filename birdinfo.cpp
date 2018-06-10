@@ -14,11 +14,11 @@ BirdInfo::BirdInfo(): AnimalInfo()
 
 QGroupBox* BirdInfo::getAnimalInfo() const { return birdInfo;}
 
-void BirdInfo::setAnimalInfo(Animal* animal)
+void BirdInfo::setAnimalInfo(std::shared_ptr<Animal> animal)
 {
     AnimalInfo::setAnimalInfo(animal);
-    currLengthOfWings->setText(QStringLiteral("Length of wings: %1").arg(dynamic_cast<Bird*>(animal)->getLengthOfWings()));
-    currPredator->setText("Predator: " + QString((dynamic_cast<Bird*>(animal)->getPredator()? "yes":"no")));
+    currLengthOfWings->setText(QStringLiteral("Length of wings: %1").arg(std::dynamic_pointer_cast<Bird>(animal)->getLengthOfWings()));
+    currPredator->setText("Predator: " + QString((std::dynamic_pointer_cast<Bird>(animal)->getPredator()? "yes":"no")));
 }
 
 void BirdInfo::clearAnimalInfo(){

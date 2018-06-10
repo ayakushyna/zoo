@@ -1,6 +1,6 @@
 #ifndef RENAMEDIALOG_H
 #define RENAMEDIALOG_H
-
+#include <memory>
 #include "shared_defs.h"
 #include "animal.h"
 #include "bird.h"
@@ -17,10 +17,10 @@ class RenameDialog: public QDialog
 {
     Q_OBJECT
 public:
-    RenameDialog(Animal* animal,Zoo* zoo,QWidget* parent = 0);
+    RenameDialog(Animal& animal,std::shared_ptr<Zoo> zoo,QWidget* parent = 0);
     ~RenameDialog();
 private:
-    bool checkName(const QString& name,Zoo* zoo);
+    bool checkName(const QString& name,std::shared_ptr<Zoo> zoo);
 };
 
 #endif // RENAMEDIALOG_H

@@ -1,6 +1,6 @@
 #ifndef BIRDINFO_H
 #define BIRDINFO_H
-
+#include <memory>
 #include "animal.h"
 #include "animalinfo.h"
 #include "bird.h"
@@ -20,7 +20,7 @@ public:
     QGroupBox* getAnimalInfo() const;
 
 public slots:
-    void setAnimalInfo(Animal* animal);
+    void setAnimalInfo(std::shared_ptr<Animal> animal);
     void clearAnimalInfo();
 
 private:

@@ -1,6 +1,6 @@
 #ifndef ANIMALINFO_H
 #define ANIMALINFO_H
-
+#include <memory>
 #include "animal.h"
 #include "bird.h"
 #include "mammal.h"
@@ -17,10 +17,12 @@ public:
     AnimalInfo();
     ~AnimalInfo();
 
-    QVBoxLayout *layout;
 public slots:
-    void setAnimalInfo(Animal* animal);
+    void setAnimalInfo(std::shared_ptr<Animal> animal);
     void clearAnimalInfo();
+
+protected:
+    QVBoxLayout *layout;
 
 private:
     QLabel* currImage;

@@ -23,7 +23,7 @@ AnimalInfo::AnimalInfo()
 
 }
 
-void AnimalInfo::setAnimalInfo(Animal* animal)
+void AnimalInfo::setAnimalInfo(std::shared_ptr<Animal> animal)
 {
     currImage->setPixmap(QPixmap(":/images/" + animal->getSpecies() + ".png"));
     currName->setText("Name: "+ animal->getName());

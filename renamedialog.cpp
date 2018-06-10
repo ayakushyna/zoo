@@ -1,6 +1,6 @@
 #include "renamedialog.h"
 
-RenameDialog::RenameDialog(Animal* animal,Zoo* zoo,QWidget *parent)
+RenameDialog::RenameDialog(Animal& animal,std::shared_ptr<Zoo> zoo,QWidget *parent)
 : QDialog(parent)
 {
     setWindowIcon(QIcon(":/images/zoo_icon.png"));
@@ -14,9 +14,9 @@ RenameDialog::RenameDialog(Animal* animal,Zoo* zoo,QWidget *parent)
     QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
                                                        |QDialogButtonBox::Cancel);
 
-    connect(buttonBox, QDialogButtonBox::accepted,[=](){
+    connect(buttonBox, QDialogButtonBox::accepted,[=, &animal](){
         if(checkName(nameLineEdit->text(), zoo)){
-            animal->setName(nameLineEdit->text());
+            animal.setName(nameLineEdit->text());
             accept();
         } else {
             nameErrorLabel->setText("Invalid name.");
@@ -33,7 +33,7 @@ RenameDialog::RenameDialog(Animal* animal,Zoo* zoo,QWidget *parent)
      setLayout(layout);
 }
 
-bool RenameDialog::checkName(const QString& name, Zoo* zoo){
+bool RenameDialog::checkName(const QString& name, std::shared_ptr<Zoo> zoo){
     QRegExp rxpName( "[A-Z][a-z]{1,14}" );
     bool b = !(zoo->getAnimalsNames().contains(name));
     return rxpName.exactMatch(name) && b;

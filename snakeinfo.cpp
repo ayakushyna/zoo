@@ -14,11 +14,11 @@ SnakeInfo::SnakeInfo(): AnimalInfo()
 
 QGroupBox* SnakeInfo::getAnimalInfo() const { return snakeInfo;}
 
-void SnakeInfo::setAnimalInfo(Animal* animal)
+void SnakeInfo::setAnimalInfo(std::shared_ptr<Animal> animal)
 {
     AnimalInfo::setAnimalInfo(animal);
-    currLength->setText(QStringLiteral("Length: %1").arg(dynamic_cast<Snake*>(animal)->getLength()));
-    currPoisonous->setText("Poisonous: " +  QString((dynamic_cast<Snake*>(animal)->getPoisonous()? "yes": "no")));
+    currLength->setText(QStringLiteral("Length: %1").arg(std::dynamic_pointer_cast<Snake>(animal)->getLength()));
+    currPoisonous->setText("Poisonous: " +  QString((std::dynamic_pointer_cast<Snake>(animal)->getPoisonous()? "yes": "no")));
 }
 
 void SnakeInfo::clearAnimalInfo(){

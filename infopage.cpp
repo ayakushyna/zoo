@@ -93,7 +93,7 @@ InfoPage::InfoPage( int path,const QStringList& animalsNames,QWidget* parent)
 
         layout->addWidget(milkPeriodLabel,4,0);
         layout->addWidget(milkPeriodLineEdit,4,1);
-        layout->addWidget(milkPeriodErrorLabel,5,1);registerField( "animalMilkPeriod*", milkPeriodLineEdit );
+        layout->addWidget(milkPeriodErrorLabel,5,1);
 
         layout->addWidget(predatorLabel,4,2);
         layout->addWidget(predatorButton,4,3);

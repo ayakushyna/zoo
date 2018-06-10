@@ -1,6 +1,6 @@
 #include "movedialog.h"
 
-MoveDialog::MoveDialog(QStringList list,QWidget *parent)
+MoveDialog::MoveDialog(QStringList list, QString currZooName, QWidget *parent)
     : QDialog(parent)
 {
     setWindowTitle("Move Animal");
@@ -9,7 +9,13 @@ MoveDialog::MoveDialog(QStringList list,QWidget *parent)
     QLabel* selectedZooLabel = new QLabel("Select new zoo:");
 
     QComboBox* listOfZoos = new QComboBox;
-    listOfZoos->addItems(list);
+
+    QStringList otherZoosList;
+    foreach(QString name, list){
+        if(name != currZooName)
+            otherZoosList<< name;
+    }
+    listOfZoos->addItems(otherZoosList);
 
     QDialogButtonBox* buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok
                                                       |QDialogButtonBox::Cancel);

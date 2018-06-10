@@ -15,7 +15,7 @@ class MoveDialog: public QDialog
 {
      Q_OBJECT
 public:
-    MoveDialog(QStringList list, QWidget* parent = 0);
+    MoveDialog(QStringList list, QString currZooName, QWidget* parent = 0);
     ~MoveDialog();
 
     QString getSelectedZooName()const;

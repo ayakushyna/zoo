@@ -1,0 +1,30 @@
+{
+    "zoos": [
+        {
+            "animals": [
+                {
+                    "lengthOfWings": 1,
+                    "months": 3,
+                    "name": "Aa",
+                    "percent": 89,
+                    "predator": false,
+                    "species": "peacock",
+                    "type": 1,
+                    "weight": 1,
+                    "years": 1
+                }
+            ],
+            "zooName": "Zooooo"
+        },
+        {
+            "animals": [
+            ],
+            "zooName": "Zoooo"
+        },
+        {
+            "animals": [
+            ],
+            "zooName": "Zoooooo"
+        }
+    ]
+}

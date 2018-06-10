@@ -128,58 +128,25 @@ InfoPage::InfoPage( int path,const QStringList& animalsNames,QWidget* parent)
 
 InfoPage::~InfoPage(){}
 
-bool InfoPage::checkName(const QString& name){
-     QRegExp rxpName( "[A-Z][a-z]{1,14}" );
-     return rxpName.exactMatch(name)&&!mAnimalsNames.contains(name);
-}
-
-bool InfoPage::checkYears(int years){
-    return years >= 0 && years < 100;
-}
-
-bool InfoPage::checkMonths(int months){
-    return months >= 0 && months < 12;
-}
-
-bool InfoPage::checkWeight(double weight){
-    return weight > 0 && weight<= 5000;
-}
-
-bool InfoPage::checkPercentOfFeeding(int percentOfFeeding){
-    return percentOfFeeding > 0 && percentOfFeeding <= 100;
-}
-
-bool InfoPage::checkLengthOfWings(double lengthOfWings){
-    return lengthOfWings > 0 && lengthOfWings <=3;
-}
-
-bool InfoPage::checkMilkPeriod(int milkPeriod){
-    return milkPeriod > 0 && milkPeriod <= 6;
-}
-
-bool InfoPage::checkLength(double length){
-    return length > 0 && length <= 12;
-}
-
 bool InfoPage::validatePage(){
 
-    bool b1 = checkName(nameLineEdit->text());
+    bool b1 = Animal::checkName(nameLineEdit->text()) && !mAnimalsNames.contains(nameLineEdit->text());;
     nameErrorLabel->setText(b1? "" : "Invalid name.");
     nameLineEdit->setFocus();
 
-    bool b2 = checkYears(yearsLineEdit->text().toInt());
+    bool b2 = Animal::checkYears(yearsLineEdit->text().toInt());
     yearsErrorLabel->setText(b2? "" : "Invalid years.");
     yearsLineEdit->setFocus();
 
-    bool b3 = checkMonths(monthsLineEdit->text().toInt());
+    bool b3 = Animal::checkMonths(monthsLineEdit->text().toInt());
     monthsErrorLabel->setText(b3? "" : "Invalid months.");
     monthsLineEdit->setFocus();
 
-    bool b4 = checkWeight(weightLineEdit->text().toDouble());
+    bool b4 = Animal::checkWeight(weightLineEdit->text().toDouble());
     weightErrorLabel->setText(b4? "" : "Invalid weight.");
     weightLineEdit->setFocus();
 
-    bool b5 = checkPercentOfFeeding(percentOfFeedingLineEdit->text().toInt());
+    bool b5 = Animal::checkPercentOfFeeding(percentOfFeedingLineEdit->text().toInt());
     percentOfFeedingErrorLabel->setText(b5? "" : "Invalid percent.");
     percentOfFeedingLineEdit->setFocus();
 
@@ -189,7 +156,7 @@ bool InfoPage::validatePage(){
     {
     case BIRDINFO_PAGE:
     {
-        b6 = checkLengthOfWings(lengthOfWingsLineEdit->text().toDouble());
+        b6 = Bird::checkLengthOfWings(lengthOfWingsLineEdit->text().toDouble());
         lengthOfWingsErrorLabel->setText(b6? "" : "Invalid length of wings.");
         lengthOfWingsLineEdit->setFocus();
         break;
@@ -197,7 +164,7 @@ bool InfoPage::validatePage(){
 
     case MAMMALINFO_PAGE:
     {
-        b6 = checkMilkPeriod(milkPeriodLineEdit->text().toInt());
+        b6 = Mammal::checkMilkPeriod(milkPeriodLineEdit->text().toInt());
         milkPeriodErrorLabel->setText(b6? "" : "Invalid milk period.");
         milkPeriodLineEdit->setFocus();
         break;
@@ -205,7 +172,7 @@ bool InfoPage::validatePage(){
 
     case SNAKEINFO_PAGE:
     {
-        b6 = checkLength(lengthLineEdit->text().toDouble());
+        b6 = Snake::checkLength(lengthLineEdit->text().toDouble());
         lengthErrorLabel->setText(b6? "" : "Invalid length.");
         lengthLineEdit->setFocus();
         break;

@@ -1,6 +1,6 @@
 #ifndef WIDGET_H
 #define WIDGET_H
-
+#include <memory>
 #include "shared_defs.h"
 #include "animal.h"
 #include "bird.h"
@@ -28,6 +28,9 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
+    void read(const QJsonObject &json);
+    void write(QJsonObject &json) const;
+
 private slots:
     void changeZooSlot(int index);
     void changeZooNameSlot();
@@ -36,14 +39,26 @@ private slots:
     void removeAnimalSlot();
     void moveAnimalSlot();
 
+    bool loadApp();
+    bool saveApp();
+
 private:
     Ui::Widget *ui;
 
-    static QVector <Zoo*> mZoos;
-    Zoo* mZoo;
+    static QVector <std::shared_ptr<Zoo>> mZoos;
+    std::shared_ptr<Zoo> mZoo;
 
     QStringList getZooNames() const;
     QComboBox* listOfZoo;
+
+    void createActions();
+    QAction *openAct;
+    QAction *saveAct;
+    QAction *aboutAct;
+
+    void createMenus();
+    QMenu *fileMenu;
+    QMenu *helpMenu;
 
     MoveDialog* moveDialog;
     RenameDialog* renameDialog;
@@ -61,7 +76,9 @@ private:
 
     template<class T>
     QGroupBox* createAnimalGroupBox(QComboBox* listOfAnimals, T* animalInfo);
-    void changeListOfAnimals(QComboBox* listOfAnimals, AnimalType type);
+    void changeListOfAnimals(std::shared_ptr<Zoo> zoo,QComboBox* listOfAnimals, AnimalType type);
+    QTimer* updateTimer;
+
     QGroupBox* birdsGroupBox;
     QComboBox* listOfBirds;
     BirdInfo* birdInfo;
@@ -74,13 +91,15 @@ private:
     QComboBox* listOfSnakes;
     SnakeInfo* snakeInfo;
 
+    void setTimers(Animal& animal);
+    void addAnimal( std::shared_ptr<Animal> animal, QComboBox* listOfAnomals);
+
     QComboBox* getCurrentListOfAnimals()const;
     QMessageBox* createNameWarningBox();
 
-    void setCurrentAnimalName(QComboBox* listOfAnimals);
-    QString currAnimalName;
-
-    void removeCurrentAnimalName(QComboBox* listOfAnimals);
+    //void setCurrentAnimalName(QComboBox* listOfAnimals);
+    //void removeCurrentAnimalName(QComboBox* listOfAnimals);
+    //QString currAnimalName;
 };
 
 #endif // WIDGET_H

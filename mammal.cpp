@@ -2,10 +2,12 @@
 
 Mammal::Mammal(): Animal(), mMilkPeriod(0), mPredator(0) {}
 
-Mammal::Mammal(const QString& name,AnimalType type,  int years, int months, double weight,
+Mammal::Mammal(const QString& name, int years, int months, double weight,
                int percentOfFeeding, const QString& species, int milkPeriod, bool predator)
-    :Animal( name, type, years, months, weight, percentOfFeeding, species),
-      mMilkPeriod(milkPeriod), mPredator(predator){}
+    :Animal( name, years, months, weight, percentOfFeeding, species),
+        mMilkPeriod(milkPeriod), mPredator(predator){
+    mType = MAMMAL;
+}
 
 
 void Mammal::setMilkPeriod(int milkPeriod){
@@ -19,6 +21,10 @@ void Mammal::setPredator(bool predator){
 }
 
 bool Mammal::getPredator() const { return mPredator;}
+
+bool Mammal::checkMilkPeriod(int milkPeriod){
+    return milkPeriod > 0 && milkPeriod <= 6;
+}
 
 bool Mammal::feed(const Food& food){
     if(( mYears == 0 && mMonths <= mMilkPeriod && food.getFoodName() != "Milk") ||
@@ -37,6 +43,22 @@ bool Mammal::feed(const Food& food){
     else mPercentOfFeeding+=food.getFoodPercentIncrease();
 
     return true;
+}
+
+
+void Mammal::read(const QJsonObject &json){
+    Animal::read(json);
+    if (json.contains("milkPeriod") && json["milkPeriod"].isDouble())
+            mMilkPeriod = json["milkPeriod"].toInt();
+
+    if (json.contains("predator") && json["predator"].isBool())
+            mPredator = json["predator"].toBool();
+}
+
+void Mammal::write(QJsonObject &json) const {
+    Animal::write(json);
+    json["milkPeriod"] = mMilkPeriod;
+    json["predator"] = mPredator;
 }
 
 Mammal::~Mammal() {}

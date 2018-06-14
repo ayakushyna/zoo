@@ -16,10 +16,10 @@ Widget::Widget(QWidget *parent) :
     menuBar->addMenu(fileMenu);
     menuBar->addMenu(helpMenu);
 
-    updateTimer = new QTimer;
+    updateTimer = new QTimer(this);
     updateTimer->start(3000);
 
-    QGridLayout *mainLayout = new QGridLayout;
+    QGridLayout *mainLayout = new QGridLayout(this);
     mainLayout->addWidget(menuBar,0,0);
     mainLayout->addWidget(createZooGroupBox(),1,0);
     mainLayout->addWidget(createTabsOfAnimals(),2,0);
@@ -56,10 +56,10 @@ void Widget::createMenus(){
 }
 
 QGroupBox* Widget::createZooGroupBox(){
-    zooGroupBox = new QGroupBox("Select zoo:");
-    QVBoxLayout *layout = new QVBoxLayout;
+    zooGroupBox = new QGroupBox("Select zoo:",this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
 
-    listOfZoo = new QComboBox;
+    listOfZoo = new QComboBox(this);
     foreach (auto zoo, mZoos) {
         listOfZoo->addItem(zoo->getZooName());
     }
@@ -74,15 +74,15 @@ QGroupBox* Widget::createZooGroupBox(){
 
 QGroupBox* Widget::createButtonsGroupBox(){
     buttonsGroupBox = new QGroupBox("Zoo Actions");
-    QVBoxLayout *layout = new QVBoxLayout;
+    QVBoxLayout *layout = new QVBoxLayout(this);
 
-    QPushButton* changeZooNameButton = new QPushButton("Change Zoo Name");
-    QPushButton* feedingButton = new QPushButton("Feeding");
-    QPushButton* addAnimalButton = new QPushButton("Add Animal");
+    QPushButton* changeZooNameButton = new QPushButton("Change Zoo Name",this);
+    QPushButton* feedingButton = new QPushButton("Feeding",this);
+    QPushButton* addAnimalButton = new QPushButton("Add Animal",this);
 
-    connect(changeZooNameButton, SIGNAL(clicked()),SLOT(changeZooNameSlot()));
-    connect(feedingButton, SIGNAL(clicked()),SLOT(feedingSlot()));
-    connect(addAnimalButton, SIGNAL(clicked()),SLOT(addAnimalSlot()));
+    connect(changeZooNameButton, SIGNAL(clicked()),this,SLOT(changeZooNameSlot()));
+    connect(feedingButton, SIGNAL(clicked()),this,SLOT(feedingSlot()));
+    connect(addAnimalButton, SIGNAL(clicked()),this,SLOT(addAnimalSlot()));
 
     layout->addWidget(changeZooNameButton);
     layout->addWidget(feedingButton);
@@ -94,17 +94,17 @@ QGroupBox* Widget::createButtonsGroupBox(){
 }
 
 QTabWidget* Widget::createTabsOfAnimals(){
-    tabsOfAnimals = new QTabWidget;
+    tabsOfAnimals = new QTabWidget(this);
 
-    listOfBirds = new QComboBox;
+    listOfBirds = new QComboBox(this);
     birdInfo = new BirdInfo;
     birdsGroupBox = createAnimalGroupBox(listOfBirds,birdInfo);
 
-    listOfMammals = new QComboBox;
+    listOfMammals = new QComboBox(this);
     mammalInfo = new MammalInfo;
     mammalsGroupBox = createAnimalGroupBox(listOfMammals,mammalInfo);
 
-    listOfSnakes = new QComboBox;
+    listOfSnakes = new QComboBox(this);
     snakeInfo = new SnakeInfo;
     snakesGroupBox = createAnimalGroupBox(listOfSnakes,snakeInfo);
 
@@ -116,18 +116,17 @@ QTabWidget* Widget::createTabsOfAnimals(){
 
 }
 
-template<class T>
-QGroupBox* Widget::createAnimalGroupBox( QComboBox* listOfAnimals,T* animalInfo){
+QGroupBox* Widget::createAnimalGroupBox( QComboBox* listOfAnimals,AnimalInfo* animalInfo){
 
-    QGroupBox* animalGroupBox = new QGroupBox;
-    QGridLayout *layout = new QGridLayout;
+    QGroupBox* animalGroupBox = new QGroupBox(this);
+    QGridLayout *layout = new QGridLayout(this);
 
-    QPushButton* moveAnimalButton = new QPushButton("Move to another zoo");
-    QPushButton* removeAnimalButton = new QPushButton("Remove Animal");
+    QPushButton* moveAnimalButton = new QPushButton("Move to another zoo",this);
+    QPushButton* removeAnimalButton = new QPushButton("Remove Animal",this);
     moveAnimalButton->setDisabled(true);
     removeAnimalButton->setDisabled(true);
-    connect(moveAnimalButton, SIGNAL(clicked()), SLOT(moveAnimalSlot()));
-    connect(removeAnimalButton, SIGNAL(clicked()),SLOT(removeAnimalSlot()));
+    connect(moveAnimalButton, SIGNAL(clicked()),this, SLOT(moveAnimalSlot()));
+    connect(removeAnimalButton, SIGNAL(clicked()),this,SLOT(removeAnimalSlot()));
 
     connect(listOfAnimals, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
             [=](const QString &text){
@@ -219,6 +218,7 @@ void Widget::changeZooNameSlot(){
 
 void Widget::feedingSlot(){
     feedDialog = new FeedDialog;
+    feedDialog->setModal(true);
     feedDialog->resize(400,200);
     feedDialog->show();
 
@@ -254,12 +254,13 @@ void Widget::setTimers(Animal& animal){
                 else{
                     animal.getFeedingTimer()->stop();
 
-                    QMessageBox msgBox;
-                    msgBox.setIcon(QMessageBox::Warning);
-                    msgBox.setWindowIcon(QIcon(":/images/zoo_icon.png"));
-                    msgBox.setWindowTitle("Warning");
-                    msgBox.setText(animal.getName()+" is hungry.\n Feed it as soon as possible.");
-                    msgBox.exec();
+                    QMessageBox* msgBox = new QMessageBox;
+                    msgBox->setAttribute( Qt::WA_DeleteOnClose, true );
+                    msgBox->setIcon(QMessageBox::Warning);
+                    msgBox->setWindowIcon(QIcon(":/images/zoo_icon.png"));
+                    msgBox->setWindowTitle("Warning");
+                    msgBox->setText(animal.getName()+" is hungry.\n Feed it as soon as possible.");
+                    msgBox->exec();
 
                 }
 
@@ -272,12 +273,13 @@ void Widget::setTimers(Animal& animal){
                     animal.increaseAge();
                 else{
 
-                    QMessageBox msgBox;
-                    msgBox.setIcon(QMessageBox::Warning);
-                    msgBox.setWindowIcon(QIcon(":/images/zoo_icon.png"));
-                    msgBox.setWindowTitle("Warning");
-                    msgBox.setText(animal.getName()+"'s hour has come to end.\n");
-                    msgBox.exec();
+                    QMessageBox* msgBox = new QMessageBox;
+                    msgBox->setAttribute( Qt::WA_DeleteOnClose, true );
+                    msgBox->setIcon(QMessageBox::Information);
+                    msgBox->setWindowIcon(QIcon(":/images/zoo_icon.png"));
+                    msgBox->setWindowTitle("Info");
+                    msgBox->setText(animal.getName()+"'s hour has come to end.\n");
+                    msgBox->exec();
 
                     foreach(auto zoo, mZoos){
                         if(zoo->getAnimal(animal.getName())!= nullptr && zoo->getAnimal(animal.getName())->getYears() == 100){
@@ -309,6 +311,7 @@ void Widget::addAnimal( std::shared_ptr<Animal> animal, QComboBox* listOfAnomals
 void Widget::addAnimalSlot(){
 
     wizard = new AnimalWizard(mZoo->getAnimalsNames());
+    wizard->setModal(true);
     wizard->resize(700,400);
     wizard->show();
 
@@ -376,22 +379,9 @@ QComboBox* Widget::getCurrentListOfAnimals()const {
     return listOfAnimals;
 }
 
-QMessageBox* Widget::createNameWarningBox(){
-    QMessageBox* msgBox = new QMessageBox;
-
-    msgBox->setText("Animal with this name has already existed in that zoo.");
-    msgBox->setIcon(QMessageBox::Warning);
-    msgBox->setInformativeText("Do you want to rename the animal?");
-    msgBox->addButton("Rename", QMessageBox::AcceptRole);
-    msgBox->addButton("Cancel", QMessageBox::RejectRole);
-    msgBox->setWindowIcon(QIcon(":/images/zoo_icon.png"));
-    msgBox->setWindowTitle("Warning");
-
-    return msgBox;
-}
-
 void Widget::moveAnimalSlot(){
     moveDialog = new MoveDialog(getZooNames(), mZoo->getZooName());
+    moveDialog->setModal(true);
     moveDialog->show();
 
     if(moveDialog->exec())
@@ -404,10 +394,20 @@ void Widget::moveAnimalSlot(){
             if(zoo->getZooName() == selectedZooName){
                 if(zoo->getAnimalsNames().contains(currAnimalName)){
 
-                    QMessageBox* msgBox = createNameWarningBox();
+                    QMessageBox* msgBox = new QMessageBox(this);
+                    msgBox->setAttribute( Qt::WA_DeleteOnClose, true );
+                    msgBox->setText("Animal with this name has already existed in that zoo.");
+                    msgBox->setIcon(QMessageBox::Warning);
+                    msgBox->setInformativeText("Do you want to rename the animal?");
+                    msgBox->addButton("Rename", QMessageBox::AcceptRole);
+                    msgBox->addButton("Cancel", QMessageBox::RejectRole);
+                    msgBox->setWindowIcon(QIcon(":/images/zoo_icon.png"));
+                    msgBox->setWindowTitle("Warning");
+
                     if(msgBox->exec() == QMessageBox::AcceptRole){
 
                         renameDialog = new RenameDialog(*currAnimal,zoo);
+                        renameDialog->setModal(true);
                         renameDialog->show();
 
                         if(!renameDialog->exec()){
@@ -426,6 +426,7 @@ void Widget::moveAnimalSlot(){
 
 void Widget::read(const QJsonObject &json){
     updateTimer->stop();
+    try{
     if (json.contains("zoos") && json["zoos"].isArray()) {
             QJsonArray zoosArray = json["zoos"].toArray();
 
@@ -434,6 +435,18 @@ void Widget::read(const QJsonObject &json){
                 mZoos[zooIndex]->read(zooObject);
             }
         }
+    }
+    catch(const std::exception & ex){
+        QMessageBox* msgBox = new QMessageBox(this);
+        msgBox->setAttribute( Qt::WA_DeleteOnClose, true );
+        msgBox->setIcon(QMessageBox::Critical);
+        msgBox->setWindowIcon(QIcon(":/images/zoo_icon.png"));
+        msgBox->setWindowTitle("Error");
+        msgBox->setText(ex.what());
+        msgBox->exec();
+        this->close();
+
+    }
 
     QStringList newList = getZooNames();
     foreach(auto zoo, mZoos){

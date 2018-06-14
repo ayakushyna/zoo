@@ -17,9 +17,11 @@ public:
     AnimalInfo();
     ~AnimalInfo();
 
+    virtual QGroupBox* getAnimalInfo() const = 0;
+
 public slots:
-    void setAnimalInfo(std::shared_ptr<Animal> animal);
-    void clearAnimalInfo();
+    virtual void setAnimalInfo(std::shared_ptr<Animal> animal);
+    virtual void clearAnimalInfo();
 
 protected:
     QVBoxLayout *layout;

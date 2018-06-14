@@ -26,7 +26,7 @@ void Snake::setPoisonous(bool poisonous){
 bool Snake::getPoisonous()const {return mPoisonous;}
 
 bool Snake::checkLength(double length){
-    return length > 0 && length <= 12;
+    return length > 0. && length <= 12.;
 }
 
 bool Snake::feed(const Food& food){

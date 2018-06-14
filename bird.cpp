@@ -25,7 +25,7 @@ void Bird::setPredator(bool predator){
 bool Bird::getPredator() const { return mPredator;}
 
 bool Bird::checkLengthOfWings(double lengthOfWings){
-    return lengthOfWings > 0 && lengthOfWings <=3;
+    return lengthOfWings > 0. && lengthOfWings <= 3.;
 }
 
 bool Bird::feed(const Food& food){

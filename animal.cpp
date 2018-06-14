@@ -10,6 +10,11 @@ Animal::Animal(const QString& name, int years, int months,
   : mName(name), mType(UNKNOWN), mYears(years), mMonths(months),
     mWeight(weight), mPercentOfFeeding(percentOfFeeding), mSpecies(species){
 
+/*
+    if((checkName(name) && checkYears(years) && checkMonths(months)
+      && checkWeight(weight) && checkPercentOfFeeding(percentOfFeeding)) == 0)
+        throw InvalidData();
+*/
     feedingTimer = new QTimer;
     ageTimer = new QTimer;
 }
@@ -80,7 +85,7 @@ bool Animal::checkWeight(double weight){
 }
 
 bool Animal::checkPercentOfFeeding(int percentOfFeeding){
-    return percentOfFeeding > 0 && percentOfFeeding <= 100;
+    return percentOfFeeding >= 0 && percentOfFeeding <= 100;
 }
 
 void Animal::increaseAge(){
@@ -95,26 +100,33 @@ void Animal::decreasePercentOfFeeding(){
 }
 
 void Animal::read(const QJsonObject &json){
-    if (json.contains("name") && json["name"].isString())
+    if (json.contains("name") && json["name"].isString() && checkName(json["name"].toString()))
             mName = json["name"].toString();
+    else throw InvalidData();
 
     if (json.contains("type") && json["type"].isDouble())
             mType = AnimalType(json["type"].toInt());
+    else throw InvalidData();
 
-    if (json.contains("years") && json["years"].isDouble())
+    if (json.contains("years") && json["years"].isDouble() && checkYears(json["years"].toInt()))
             mYears = json["years"].toInt();
+    else throw InvalidData();
 
-    if (json.contains("months") && json["months"].isDouble())
+    if (json.contains("months") && json["months"].isDouble() && checkMonths(json["months"].toInt()))
             mMonths = json["months"].toInt();
+    else throw InvalidData();
 
-    if (json.contains("weight") && json["weight"].isDouble())
+    if (json.contains("weight") && json["weight"].isDouble() && checkWeight(json["weight"].toDouble()))
             mWeight = json["weight"].toDouble();
+    else throw InvalidData();
 
-    if (json.contains("percent") && json["percent"].isDouble())
+    if (json.contains("percent") && json["percent"].isDouble()&& checkPercentOfFeeding(json["percent"].toInt()))
             mPercentOfFeeding = json["percent"].toInt();
+    else throw InvalidData();
 
     if (json.contains("species") && json["species"].isString())
             mSpecies = json["species"].toString();
+    else throw InvalidData();
 
 }
 

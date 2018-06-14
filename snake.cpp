@@ -6,6 +6,10 @@ Snake::Snake(const QString& name, int years, int months ,double weight,
              int percentOfFeeding, const QString& species, double length, bool poisonous)
     :Animal( name, years, months, weight,  percentOfFeeding, species),
         mLength(length),mPoisonous(poisonous){
+
+    //if(checkLength(length) == 0)
+    //    throw InvalidData();
+
     mType = SNAKE;
 }
 
@@ -37,11 +41,14 @@ bool Snake::feed(const Food& food){
 
 void Snake::read(const QJsonObject &json){
     Animal::read(json);
-    if (json.contains("length") && json["length"].isDouble())
+
+    if (json.contains("length") && json["length"].isDouble() && checkLength(json["length"].toDouble()))
             mLength = json["length"].toDouble();
+    else throw InvalidData();
 
     if (json.contains("poisonous") && json["poisonous"].isBool())
             mPoisonous = json["poisonous"].toBool();
+    else throw InvalidData();
 }
 
 void Snake::write(QJsonObject &json) const {

@@ -6,6 +6,17 @@
 #include "shared_defs.h"
 #include "food.h"
 
+
+class InvalidData: public std::exception{
+
+public:
+    InvalidData(void){}
+    virtual const char* what() const throw(){
+        return "Invalid Data";
+    }
+    ~InvalidData(){}
+};
+
 class Animal
 {
 

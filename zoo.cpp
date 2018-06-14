@@ -84,16 +84,13 @@ std::shared_ptr<Animal> Zoo::getAnimal(const QString& name) const{
 }
 
 void Zoo::read(const QJsonObject &json){
-    if (json.contains("zooName") && json["zooName"].isString())
+    if (json.contains("zooName") && json["zooName"].isString() && checkZooName(json["zooName"].toString()))
             mZooName = json["zooName"].toString();
+    else throw InvalidData();
 
     if (json.contains("animals") && json["animals"].isArray()) {
             QJsonArray animalsArray = json["animals"].toArray();
 
-            /*for(auto i = mAnimals.begin();i!= mAnimals.end();i++){
-                if((*i) != nullptr) delete *i;
-            }
-            */
             mAnimals.clear();
             mAnimals.reserve(animalsArray.size());
 
@@ -141,10 +138,4 @@ void Zoo::write(QJsonObject &json) const
     json["animals"] = animalsArray;
 }
 
-Zoo::~Zoo(){
-    /*
-    for(auto i = mAnimals.begin();i!= mAnimals.end();i++){
-        if((*i) != nullptr) delete *i;
-    }
-    */
-}
+Zoo::~Zoo(){}

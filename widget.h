@@ -74,28 +74,27 @@ private:
     QTabWidget* createTabsOfAnimals();
     QTabWidget* tabsOfAnimals;
 
-    template<class T>
-    QGroupBox* createAnimalGroupBox(QComboBox* listOfAnimals, T* animalInfo);
+    QGroupBox* createAnimalGroupBox(QComboBox* listOfAnimals, AnimalInfo* animalInfo);
     void changeListOfAnimals(std::shared_ptr<Zoo> zoo,QComboBox* listOfAnimals, AnimalType type);
     QTimer* updateTimer;
 
     QGroupBox* birdsGroupBox;
     QComboBox* listOfBirds;
-    BirdInfo* birdInfo;
+    AnimalInfo* birdInfo;
 
     QGroupBox* mammalsGroupBox;
     QComboBox* listOfMammals;
-    MammalInfo* mammalInfo;
+    AnimalInfo* mammalInfo;
 
     QGroupBox* snakesGroupBox;
     QComboBox* listOfSnakes;
-    SnakeInfo* snakeInfo;
+    AnimalInfo* snakeInfo;
 
     void setTimers(Animal& animal);
     void addAnimal( std::shared_ptr<Animal> animal, QComboBox* listOfAnomals);
 
     QComboBox* getCurrentListOfAnimals()const;
-    QMessageBox* createNameWarningBox();
+    //QMessageBox* createNameWarningBox();
 
     //void setCurrentAnimalName(QComboBox* listOfAnimals);
     //void removeCurrentAnimalName(QComboBox* listOfAnimals);

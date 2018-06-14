@@ -43,6 +43,7 @@ void Widget::createActions(){
     connect(saveAct,SIGNAL(triggered()),this, SLOT(saveApp()));
 
     aboutAct = new QAction("About",this);
+    connect(aboutAct,SIGNAL(triggered()),this, SLOT(aboutApp()));
 }
 
 void Widget::createMenus(){
@@ -297,12 +298,12 @@ void Widget::setTimers(Animal& animal){
     animal.getAgeTimer()->start(10000);
 }
 
-void Widget::addAnimal( std::shared_ptr<Animal> animal, QComboBox* listOfAnomals){
+void Widget::addAnimal( std::shared_ptr<Animal> animal, QComboBox* listOfAnimals){
 
     qDebug()<< "After add" <<  animal.use_count();
     mZoo->addAnimal(animal);
     qDebug()<< "After 2add" <<  animal.use_count();
-    listOfAnomals->addItem(animal->getName());
+    listOfAnimals->addItem(animal->getName());
     setTimers(*animal);
     qDebug()<< "After 3add" <<  animal.use_count();
 
@@ -347,7 +348,6 @@ void Widget::addAnimalSlot(){
 
     }
 }
-
 
 void Widget::removeAnimalSlot(){
     mZoo->removeAnimal( getCurrentListOfAnimals()->currentText());
@@ -401,7 +401,6 @@ void Widget::moveAnimalSlot(){
                     msgBox->setInformativeText("Do you want to rename the animal?");
                     msgBox->addButton("Rename", QMessageBox::AcceptRole);
                     msgBox->addButton("Cancel", QMessageBox::RejectRole);
-                    msgBox->setWindowIcon(QIcon(":/images/zoo_icon.png"));
                     msgBox->setWindowTitle("Warning");
 
                     if(msgBox->exec() == QMessageBox::AcceptRole){
@@ -461,8 +460,6 @@ void Widget::read(const QJsonObject &json){
     updateTimer->start(3000);
 }
 
-
-
 void Widget::write(QJsonObject &json) const{
     QJsonArray zoosArray;
        foreach (auto zoo, mZoos) {
@@ -489,6 +486,7 @@ bool Widget::loadApp()
 
     return true;
 }
+
 bool Widget::saveApp()
 {
     const QString ext = ".json" ;
@@ -511,6 +509,10 @@ bool Widget::saveApp()
     saveFile.write(saveDoc.toJson(QJsonDocument::Indented));
 
     return true;
+}
+
+void Widget::aboutApp(){
+    QMessageBox::about(this, "About", "Это приложение создано студенткой 1 курса КИ Якушиной Анастасией");
 }
 
 Widget::~Widget(){

@@ -41,6 +41,7 @@ private slots:
 
     bool loadApp();
     bool saveApp();
+    void aboutApp();
 
 private:
     Ui::Widget *ui;

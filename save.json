@@ -3,28 +3,94 @@
         {
             "animals": [
                 {
-                    "lengthOfWings": 1,
-                    "months": 3,
-                    "name": "Aa",
-                    "percent": 89,
+                    "lengthOfWings": 1.5,
+                    "months": 11,
+                    "name": "Perry",
+                    "percent": 19,
                     "predator": false,
-                    "species": "peacock",
+                    "species": "parrot",
                     "type": 1,
-                    "weight": 1,
-                    "years": 1
+                    "weight": 3,
+                    "years": 4
+                },
+                {
+                    "length": 3,
+                    "months": 5,
+                    "name": "Cody",
+                    "percent": 90,
+                    "poisonous": true,
+                    "species": "anaconda",
+                    "type": 3,
+                    "weight": 10,
+                    "years": 5
+                },
+                {
+                    "milkPeriod": 3,
+                    "months": 1,
+                    "name": "Leo",
+                    "percent": 75,
+                    "predator": true,
+                    "species": "lion",
+                    "type": 2,
+                    "weight": 70,
+                    "years": 12
+                },
+                {
+                    "milkPeriod": 3,
+                    "months": 0,
+                    "name": "Giffy",
+                    "percent": 81,
+                    "predator": false,
+                    "species": "giraffe",
+                    "type": 2,
+                    "weight": 90,
+                    "years": 5
+                },
+                {
+                    "lengthOfWings": 2.3,
+                    "months": 2,
+                    "name": "Peggy",
+                    "percent": 92,
+                    "predator": true,
+                    "species": "penguin",
+                    "type": 1,
+                    "weight": 25,
+                    "years": 4
                 }
             ],
-            "zooName": "Zooooo"
+            "zooName": "Zooone"
+        },
+        {
+            "animals": [
+                {
+                    "lengthOfWings": 2.1,
+                    "months": 8,
+                    "name": "Perry",
+                    "percent": 65,
+                    "predator": false,
+                    "species": "flamingo",
+                    "type": 1,
+                    "weight": 5,
+                    "years": 2
+                },
+                {
+                    "milkPeriod": 2,
+                    "months": 9,
+                    "name": "Monny",
+                    "percent": 13,
+                    "predator": false,
+                    "species": "monkey",
+                    "type": 2,
+                    "weight": 20,
+                    "years": 0
+                }
+            ],
+            "zooName": "Zootwo"
         },
         {
             "animals": [
             ],
-            "zooName": "Zoooo"
-        },
-        {
-            "animals": [
-            ],
-            "zooName": "Zoooooo"
+            "zooName": "Zoothree"
         }
     ]
 }

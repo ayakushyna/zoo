@@ -10,8 +10,8 @@ class Food
 {
 public:
     Food();
-    Food(AnimalType type, const QString& name, int percentIncrease);
-    Food(AnimalType type, const QString& name, int percentIncrease, bool predator);
+    Food(AnimalType, const QString&, int);
+    Food(AnimalType, const QString&, int, bool);
     ~Food();
 
     AnimalType getFoodAnimalType()const;

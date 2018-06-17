@@ -13,16 +13,7 @@ Mammal::Mammal(const QString& name, int years, int months, double weight,
     mType = MAMMAL;
 }
 
-
-void Mammal::setMilkPeriod(int milkPeriod){
-    mMilkPeriod = milkPeriod;
-}
-
 int Mammal::getMilkPeriod()const { return mMilkPeriod; }
-
-void Mammal::setPredator(bool predator){
-    mPredator = predator;
-}
 
 bool Mammal::getPredator() const { return mPredator;}
 
@@ -41,12 +32,12 @@ bool Mammal::feed(const Food& food){
     if(!mPredator && food.getPredatorFood())
         return false;
 
-    feedingTimer->stop();
+    mFeedingTimer->stop();
     if(mPercentOfFeeding+food.getFoodPercentIncrease() > 100){
         mPercentOfFeeding = 100;
     }
     else mPercentOfFeeding+=food.getFoodPercentIncrease();
-    feedingTimer->start(3000);
+    mFeedingTimer->start(3000);
     return true;
 }
 

@@ -13,14 +13,7 @@ Bird::Bird(const QString& name, int years, int months,double weight,
     mType = BIRD;
 }
 
-void Bird::setLengthOfWings(double lengthOfWings){
-    mLengthOfWings = lengthOfWings;
-}
 double Bird::getLengthOfWings() const { return mLengthOfWings;}
-
-void Bird::setPredator(bool predator){
-    mPredator = predator;
-}
 
 bool Bird::getPredator() const { return mPredator;}
 
@@ -35,12 +28,12 @@ bool Bird::feed(const Food& food){
     if(!mPredator && food.getPredatorFood())
         return false;
 
-    feedingTimer->stop();
+    mFeedingTimer->stop();
     if(mPercentOfFeeding+food.getFoodPercentIncrease() > 100){
         mPercentOfFeeding = 100;
     }
     else mPercentOfFeeding+=food.getFoodPercentIncrease();
-    feedingTimer->start(3000);
+    mFeedingTimer->start(3000);
     return true;
 }
 

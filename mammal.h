@@ -7,21 +7,19 @@ class Mammal:public Animal
 {
 public:
     Mammal();
-    Mammal(const QString& name, int years, int months, double weight,
-           int percentOfFeeding,const QString& species,int milkPeriod, bool predator);
+    Mammal(const QString&, int, int, double,
+           int,const QString&,int, bool);
     ~Mammal();
 
-    void setMilkPeriod(int milkPeriod);
     int getMilkPeriod()const;
-    void setPredator(bool predator);
     bool getPredator()const;
 
-    static bool checkMilkPeriod(int milkPeriod);
+    static bool checkMilkPeriod(int);
 
-    bool feed(const Food& food);
+    bool feed(const Food&);
 
-    void read(const QJsonObject &json);
-    void write(QJsonObject &json) const;
+    void read(const QJsonObject&);
+    void write(QJsonObject&) const;
 
 private:
     int mMilkPeriod;

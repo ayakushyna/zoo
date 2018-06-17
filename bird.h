@@ -7,21 +7,19 @@ class Bird: public Animal
 {
 public:
     Bird();
-    Bird(const QString& name, int years, int months, double weight,
-         int percentOfFeeding, const QString& species,double lengthOfWings,bool predator);
+    Bird(const QString&, int, int, double,
+         int, const QString&,double,bool);
     ~Bird();
 
-    void setLengthOfWings(double lengthOfWings);
     double getLengthOfWings()const;
-    void setPredator(bool predator);
     bool getPredator()const;
 
-    static bool checkLengthOfWings(double lengthOfWings);
+    static bool checkLengthOfWings(double);
 
-    bool feed(const Food& food);
+    bool feed(const Food&);
 
-    void read(const QJsonObject &json);
-    void write(QJsonObject &json) const;
+    void read(const QJsonObject&);
+    void write(QJsonObject&) const;
 
 private:
     double mLengthOfWings;

@@ -22,42 +22,35 @@ class Animal
 
 public:
     Animal();
-    Animal(const QString& name, int years, int months, double weight, int percentOfFeeding,const QString& species);
+    Animal(const QString&, int, int, double, int,const QString&);
     virtual ~Animal();
 
-    void setName(const QString& name);
     QString getName() const;
-    void setType(AnimalType type);
+    void setName(const QString&);
+
     AnimalType getType() const;
-    void setYears(int years);
     int getYears() const;
-    void setMonths(int months);
     int getMonths() const;
-    void setWeight(double weight);
     double getWeight() const;
-    void setPercentOfFeeding(int percentOfFeeding);
     int getPercentOfFeeding() const;
-    void setSpecies(const QString& species);
     QString getSpecies() const;
 
     QTimer* getFeedingTimer() const;
     QTimer* getAgeTimer() const;
 
-    static bool checkName(const QString& name);
-    static bool checkYears(int years);
-    static bool checkMonths(int months);
-    static bool checkWeight(double weight);
-    static bool checkPercentOfFeeding(int percentOfFeeding);
+    static bool checkName(const QString&);
+    static bool checkYears(int);
+    static bool checkMonths(int);
+    static bool checkWeight(double);
+    static bool checkPercentOfFeeding(int);
 
     void increaseAge();
     void decreasePercentOfFeeding();
 
-    void moveToAnotherZoo();
+    virtual bool feed(const Food&) = 0;
 
-    virtual bool feed(const Food& food) = 0;
-
-    virtual void read(const QJsonObject &json);
-    virtual void write(QJsonObject &json) const;
+    virtual void read(const QJsonObject&);
+    virtual void write(QJsonObject&) const;
 
 protected:
     QString mName;
@@ -67,8 +60,8 @@ protected:
     int mPercentOfFeeding;
     QString mSpecies;
 
-    QTimer* feedingTimer;
-    QTimer* ageTimer;
+    QTimer* mFeedingTimer;
+    QTimer* mAgeTimer;
 };
 
 #endif // ANIMAL_H

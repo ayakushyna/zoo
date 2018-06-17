@@ -1,9 +1,7 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-QVector <std::shared_ptr<Zoo>> Widget::mZoos = { std::shared_ptr<Zoo>(new Zoo("Zooone")),
-                                                 std::shared_ptr<Zoo>(new Zoo("Zootwo")),
-                                                 std::shared_ptr<Zoo>(new Zoo("Zoothree")) };
+
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),ui(new Ui::Widget){
@@ -18,6 +16,11 @@ Widget::Widget(QWidget *parent) :
 
     updateTimer = new QTimer(this);
     updateTimer->start(3000);
+
+
+    mZoos = { std::shared_ptr<Zoo>(new Zoo("Zooone")),
+              std::shared_ptr<Zoo>(new Zoo("Zootwo")),
+              std::shared_ptr<Zoo>(new Zoo("Zoothree"))};
 
     QGridLayout *mainLayout = new QGridLayout(this);
     mainLayout->addWidget(menuBar,0,0);
@@ -60,14 +63,14 @@ QGroupBox* Widget::createZooGroupBox(){
     zooGroupBox = new QGroupBox("Select zoo:",this);
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    listOfZoo = new QComboBox(this);
+    listOfZoos = new QComboBox(this);
     foreach (auto zoo, mZoos) {
-        listOfZoo->addItem(zoo->getZooName());
+        listOfZoos->addItem(zoo->getZooName());
     }
 
-    connect(listOfZoo,SIGNAL(currentIndexChanged(int)),this, SLOT(changeZooSlot(int)));
+    connect(listOfZoos,SIGNAL(currentIndexChanged(int)),this, SLOT(changeZooSlot(int)));
 
-    layout->addWidget(listOfZoo);
+    layout->addWidget(listOfZoos);
     zooGroupBox->setLayout(layout);
 
     return zooGroupBox;
@@ -183,6 +186,13 @@ QStringList Widget::getZooNames() const{
     return list;
 }
 
+void Widget::changeListOfZoos(){
+    disconnect(listOfZoos,SIGNAL(currentIndexChanged(int)),this, SLOT(changeZooSlot(int)));
+    listOfZoos->clear();
+    listOfZoos->addItems(getZooNames());
+    connect(listOfZoos,SIGNAL(currentIndexChanged(int)),this, SLOT(changeZooSlot(int)));
+}
+
 void Widget::changeListOfAnimals(std::shared_ptr<Zoo> zoo, QComboBox* listOfAnimals, AnimalType type){
     listOfAnimals->clear();
     listOfAnimals->addItems(zoo->getSpecificNames(type));
@@ -212,7 +222,7 @@ void Widget::changeZooNameSlot(){
         mZoo->setZooName(zooName);
         setWindowTitle(zooName);
 
-        listOfZoo->setItemText(mZoos.indexOf(mZoo),zooName);
+        listOfZoos->setItemText(mZoos.indexOf(mZoo),zooName);
     }
 
 }
@@ -428,10 +438,17 @@ void Widget::read(const QJsonObject &json){
     try{
     if (json.contains("zoos") && json["zoos"].isArray()) {
             QJsonArray zoosArray = json["zoos"].toArray();
+            qDebug()<< "Before" <<  mZoos[0].use_count();
+            mZoo = nullptr;
+            qDebug()<< "Before" <<  mZoos[0].use_count();
+            mZoos.clear();
+            mZoos.reserve(zoosArray.size());
 
             for (int zooIndex = 0; zooIndex < zoosArray.size(); ++zooIndex) {
                 QJsonObject zooObject = zoosArray[zooIndex].toObject();
-                mZoos[zooIndex]->read(zooObject);
+                std::shared_ptr<Zoo> zoo (new Zoo);
+                zoo->read(zooObject);
+                mZoos.push_back(zoo);
             }
         }
     }
@@ -447,16 +464,14 @@ void Widget::read(const QJsonObject &json){
 
     }
 
-    QStringList newList = getZooNames();
+    changeListOfZoos();
     foreach(auto zoo, mZoos){
-        listOfZoo->setItemText(mZoos.indexOf(zoo),newList[mZoos.indexOf(zoo)]);
-
         QStringList names = zoo->getAnimalsNames();
         for(int i = 0; i < names.size();i++){
             setTimers(*(zoo->getAnimal(names[i])));
         }
     }
-    changeZooSlot(listOfZoo->currentIndex());
+    changeZooSlot(listOfZoos->currentIndex());
     updateTimer->start(3000);
 }
 

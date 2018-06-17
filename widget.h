@@ -46,11 +46,11 @@ private slots:
 private:
     Ui::Widget *ui;
 
-    static QVector <std::shared_ptr<Zoo>> mZoos;
+    QVector <std::shared_ptr<Zoo>> mZoos;
     std::shared_ptr<Zoo> mZoo;
 
     QStringList getZooNames() const;
-    QComboBox* listOfZoo;
+    QComboBox* listOfZoos;
 
     void createActions();
     QAction *openAct;
@@ -77,6 +77,8 @@ private:
 
     QGroupBox* createAnimalGroupBox(QComboBox* listOfAnimals, AnimalInfo* animalInfo);
     void changeListOfAnimals(std::shared_ptr<Zoo> zoo,QComboBox* listOfAnimals, AnimalType type);
+    void changeListOfZoos();
+
     QTimer* updateTimer;
 
     QGroupBox* birdsGroupBox;

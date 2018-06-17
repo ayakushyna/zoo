@@ -8,21 +8,19 @@ class Snake:public Animal
 {
 public:
     Snake();
-    Snake(const QString& name, int years, int months, double weight,
-          int percentOfFeeding, const QString& species, double length, bool poisonous);
+    Snake(const QString&, int, int, double,
+          int, const QString&, double, bool);
     ~Snake();
 
-    void setLength(double length);
     double getLength() const;
-    void setPoisonous(bool poisonous);
     bool getPoisonous() const;
 
-    static bool checkLength(double length);
+    static bool checkLength(double);
 
-    bool feed(const Food& food);
+    bool feed(const Food&);
 
-    void read(const QJsonObject &json);
-    void write(QJsonObject &json) const;
+    void read(const QJsonObject&);
+    void write(QJsonObject&) const;
 
 private:
     double mLength;

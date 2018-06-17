@@ -15,22 +15,22 @@ class Zoo
 {
 public:
     Zoo();
-    Zoo(const QString& zooName);
+    Zoo(const QString&);
     ~Zoo();
 
-    static bool checkZooName(const QString& zooName);
-    void setZooName(const QString& zooName);
+    static bool checkZooName(const QString&);
+    void setZooName(const QString&);
     QString getZooName()const;
     QStringList getAnimalsNames() const;
-    QStringList getSpecificNames(AnimalType type) const;
-    void addAnimal( std::shared_ptr<Animal> animal);
-    void removeAnimal( const QString& name);
+    QStringList getSpecificNames(AnimalType) const;
+    void addAnimal( std::shared_ptr<Animal>);
+    void removeAnimal( const QString&);
 
-    std::shared_ptr<Animal> getAnimal(const QString& name) const;
-    int feeding(const Food& food);
+    std::shared_ptr<Animal> getAnimal(const QString&) const;
+    Message feeding(const Food&);
 
-    void read(const QJsonObject &json);
-    void write(QJsonObject &json) const;
+    void read(const QJsonObject&);
+    void write(QJsonObject&) const;
 
 private:
     QString mZooName;

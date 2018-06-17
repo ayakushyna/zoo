@@ -35,7 +35,7 @@ QStringList Zoo::getSpecificNames(AnimalType type) const{
 }
 
 
-int Zoo::feeding(const Food& food){
+Message Zoo::feeding(const Food& food){
     std::shared_ptr<Animal> hungryAnimal (nullptr) ;
 
     std::sort(mAnimals.begin(),mAnimals.end(),

@@ -13,15 +13,7 @@ Snake::Snake(const QString& name, int years, int months ,double weight,
     mType = SNAKE;
 }
 
-void Snake::setLength(double length){
-    mLength = length;
-}
-
 double Snake::getLength() const {return mLength;}
-
-void Snake::setPoisonous(bool poisonous){
-    mPoisonous=poisonous;
-}
 
 bool Snake::getPoisonous()const {return mPoisonous;}
 
@@ -30,12 +22,12 @@ bool Snake::checkLength(double length){
 }
 
 bool Snake::feed(const Food& food){
-    feedingTimer->stop();
+    mFeedingTimer->stop();
     if(mPercentOfFeeding+food.getFoodPercentIncrease() > 100){
         mPercentOfFeeding = 100;
     }
     else mPercentOfFeeding+=food.getFoodPercentIncrease();
-    feedingTimer->start(3000);
+    mFeedingTimer->start(3000);
     return true;
 }
 

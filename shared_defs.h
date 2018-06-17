@@ -15,6 +15,6 @@ enum Pages {
 
 enum AnimalType { UNKNOWN, BIRD, MAMMAL, SNAKE };
 
-enum Messages { NOANIMAL = -1, UNFED, FED };
+enum Message { NOANIMAL = -1, UNFED, FED };
 
 #endif // SHARED_DEFS_H

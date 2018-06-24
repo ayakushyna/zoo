@@ -1,6 +1,6 @@
 #ifndef ANIMALINFO_H
 #define ANIMALINFO_H
-
+#include <memory>
 #include "animal.h"
 #include "bird.h"
 #include "mammal.h"
@@ -14,35 +14,26 @@
 class AnimalInfo
 {
 public:
-    AnimalInfo(int type);
+    AnimalInfo();
     ~AnimalInfo();
 
-    QGroupBox* getBirdInfo();
-    QGroupBox* getMammalInfo();
-    QGroupBox* getSnakeInfo();
+    virtual QGroupBox* getAnimalInfo() const = 0;
 
 public slots:
-    void setAnimalInfo(int type,Animal* animal);
+    virtual void setAnimalInfo(std::shared_ptr<Animal> animal);
+    virtual void clearAnimalInfo();
+
+protected:
+    QVBoxLayout *layout;
 
 private:
     QLabel* currImage;
     QLabel* currName;
-    QLabel* currAge;
+    QLabel* currYears;
+    QLabel* currMonths;
     QLabel* currWeight;
     QLabel* currPercentOfFeeding;
     QLabel* currSpecies;
-
-    QLabel* currLengthOfWings;
-    QLabel* currPredator;
-
-    QLabel* currMilkPeriod;
-
-    QLabel* currLength;
-    QLabel* currPoisonous;
-
-    QGroupBox* birdInfo;
-    QGroupBox* mammalInfo;
-    QGroupBox* snakeInfo;
 
 };
 

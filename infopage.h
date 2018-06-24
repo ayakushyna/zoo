@@ -3,21 +3,24 @@
 
 #include <QWizardPage>
 #include "shared_defs.h"
-#include "animalwizard.h"
 #include "zoo.h"
+#include "animal.h"
+#include "bird.h"
+#include "mammal.h"
+#include "snake.h"
 #include <QWizard>
 #include <QtWidgets>
 #include <QRegExp>
 #include <QString>
 #include <QList>
 
-    class AnimalWizard;
+class AnimalWizard;
 
 class InfoPage:public QWizardPage {
     Q_OBJECT
 
 public:
-    InfoPage(int path,const QList <QString>& animalsNames, QWidget* parent = 0 );
+    InfoPage(int path,const QStringList& animalsNames, QWidget* parent = 0 );
     ~InfoPage();
 
     friend  class AnimalWizard;
@@ -27,35 +30,31 @@ protected:
 
 private:
     int path;
-    QList <QString> mAnimalsNames;
+    QStringList mAnimalsNames;
 
-    bool checkName(const QString& name);
     QLineEdit *nameLineEdit;
     QLabel *nameErrorLabel;
 
-    bool checkAge(int age);
-    QLineEdit *ageLineEdit;
-    QLabel *ageErrorLabel;
+    QLineEdit *yearsLineEdit;
+    QLabel *yearsErrorLabel;
 
-    bool checkWeight(double weight);
+    QLineEdit *monthsLineEdit;
+    QLabel *monthsErrorLabel;
+
     QLineEdit *weightLineEdit;
     QLabel *weightErrorLabel;
 
-    bool checkPercentOfFeeding(int percentOfFeeding);
     QLineEdit *percentOfFeedingLineEdit;
     QLabel *percentOfFeedingErrorLabel;
 
-    bool checkLengthOfWings(double lengthOfWings);
     QLineEdit *lengthOfWingsLineEdit;
     QLabel *lengthOfWingsErrorLabel;
 
     QCheckBox *predatorButton;
 
-    bool checkMilkPeriod(int milkPeriod);
     QLineEdit *milkPeriodLineEdit;
     QLabel *milkPeriodErrorLabel;
 
-    bool checkLength(double length);
     QLineEdit *lengthLineEdit;
     QLabel *lengthErrorLabel;
 

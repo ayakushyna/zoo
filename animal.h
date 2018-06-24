@@ -3,35 +3,65 @@
 
 #include <QString>
 #include <QtWidgets>
+#include "shared_defs.h"
+#include "food.h"
+
+
+class InvalidData: public std::exception{
+
+public:
+    InvalidData(void){}
+    virtual const char* what() const throw(){
+        return "Invalid Data";
+    }
+    ~InvalidData(){}
+};
+
 class Animal
 {
 
 public:
     Animal();
-    Animal(const QString& name, int age,double weight, int percentOfFeeding,const QString& species);
+    Animal(const QString&, int, int, double, int,const QString&);
     virtual ~Animal();
 
-    void setName(const QString& name);
     QString getName() const;
-    void setWeight(double weight);
+    void setName(const QString&);
+
+    AnimalType getType() const;
+    int getYears() const;
+    int getMonths() const;
     double getWeight() const;
-    void setAge(int age);
-    int getAge() const;
-    void setPercentOfFeeding(int percentOfFeeding);
     int getPercentOfFeeding() const;
-    void setSpecies(const QString& species);
     QString getSpecies() const;
 
-    void declinePercentOfFeeding();
-    virtual bool feed(const QString& foodType, double foodWeight) = 0;
-    void moveToAnotherZoo();
+    QTimer* getFeedingTimer() const;
+    QTimer* getAgeTimer() const;
+
+    static bool checkName(const QString&);
+    static bool checkYears(int);
+    static bool checkMonths(int);
+    static bool checkWeight(double);
+    static bool checkPercentOfFeeding(int);
+
+    void increaseAge();
+    void decreasePercentOfFeeding();
+
+    virtual bool feed(const Food&) = 0;
+
+    virtual void read(const QJsonObject&);
+    virtual void write(QJsonObject&) const;
 
 protected:
     QString mName;
-    int mAge;
+    AnimalType mType;
+    int mYears, mMonths;
     double mWeight;
     int mPercentOfFeeding;
     QString mSpecies;
+
+    QTimer* mFeedingTimer;
+    QTimer* mAgeTimer;
 };
 
 #endif // ANIMAL_H

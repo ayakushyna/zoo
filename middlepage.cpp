@@ -1,5 +1,9 @@
 #include "middlepage.h"
 
+const QMap<QString,AnimalType> MiddlePage::species = {{ "flamingo",BIRD }, { "parrot",BIRD }, {"peacock", BIRD }, { "penguin",BIRD },
+                                                      { "elephant",MAMMAL }, { "giraffe",MAMMAL },{ "lion",MAMMAL }, { "monkey",MAMMAL },
+                                                      { "anaconda",SNAKE }, { "cobra",SNAKE }};
+
 MiddlePage::MiddlePage( int path, QWidget* parent )
     : QWizardPage( parent ),path( path ) {
 
@@ -8,59 +12,55 @@ MiddlePage::MiddlePage( int path, QWidget* parent )
         {
             setTitle("Bird");
             setSubTitle("Choose a new bird, please." );
-            QHBoxLayout* layout = new QHBoxLayout;
-
-            animalButtons = new QButtonGroup;
-            layout->addWidget(createAnimalGroupBox("flamingo",animalButtons,1));
-            layout->addWidget(createAnimalGroupBox("parrot",animalButtons,2));
-            layout->addWidget(createAnimalGroupBox("peacock",animalButtons,3));
-            layout->addWidget(createAnimalGroupBox("penguin",animalButtons,4));
-
-            setLayout(layout);
+            addAnimalRadioButtons(BIRD);
             break;
         }
         case MAMMAL_PAGE:
         {
             setTitle("Mammal");
             setSubTitle("Choose a new mammal, please." );
-            QHBoxLayout* layout = new QHBoxLayout;
-
-            animalButtons = new QButtonGroup;
-            layout->addWidget(createAnimalGroupBox("elephant",animalButtons,1));
-            layout->addWidget(createAnimalGroupBox("giraffe",animalButtons,2));
-            layout->addWidget(createAnimalGroupBox("lion",animalButtons,3));
-            layout->addWidget(createAnimalGroupBox("monkey",animalButtons,4));
-
-            setLayout(layout);
+            addAnimalRadioButtons(MAMMAL);
             break;
         }
         case SNAKE_PAGE:
         {
             setTitle("Snake");
             setSubTitle("Choose a new snake, please." );
-            QHBoxLayout* layout = new QHBoxLayout;
-
-            animalButtons = new QButtonGroup;
-            layout->addWidget(createAnimalGroupBox("anaconda",animalButtons,1));
-            layout->addWidget(createAnimalGroupBox("cobra",animalButtons,2));
-
-            setLayout(layout);
+            addAnimalRadioButtons(SNAKE);
             break;
         }
         }
 
 }
 
- QGroupBox* MiddlePage::createAnimalGroupBox(const QString&  animal,QButtonGroup* buttonGroup,int id)
+void MiddlePage::addAnimalRadioButtons(AnimalType type){
+    QHBoxLayout* layout = new QHBoxLayout;
+
+    animalButtons = new QButtonGroup;
+    int id = 0;
+
+    for( auto i =  species.begin(); i != species.end(); i++)
+    {
+        if(i.value() == type)
+        {
+            layout->addWidget(createAnimalGroupBox(i.key(),animalButtons, id));
+        }
+        id++;
+    }
+
+    setLayout(layout);
+}
+
+ QGroupBox* MiddlePage::createAnimalGroupBox(const QString&  animal,QButtonGroup* buttonGroup, int id)
 {
     QGroupBox* animalBox = new QGroupBox;
     QVBoxLayout* sublayout = new QVBoxLayout;
+
     QRadioButton* animalButton = new QRadioButton;
     animalButton->setIcon(QIcon(":/images/" + animal + ".png"));
     animalButton->setIconSize(QSize(140,140));
-    buttonGroup->addButton(animalButton);
-    buttonGroup->setId(animalButton,id);
-    connect(animalButton,SIGNAL(clicked(bool)),SLOT(setAnimalSpecies()));
+    buttonGroup->addButton(animalButton, id);
+    connect(animalButton,SIGNAL(clicked()),SLOT(setAnimalSpecies()));
 
     QLabel* animalLbl = new QLabel(animal);
     animalLbl->setAlignment(Qt::AlignCenter);
@@ -74,75 +74,11 @@ MiddlePage::MiddlePage( int path, QWidget* parent )
 }
 
  void MiddlePage::setAnimalSpecies(){
-     if(path == BIRD_PAGE) {
-         switch(animalButtons->checkedId())
-         {
-         case 1:
-         {
-             animalSpecies = "flamingo";
-             break;
-         }
-         case 2:
-         {
-             animalSpecies = "parrot";
-             break;
-         }
-         case 3:
-         {
-             animalSpecies = "peacock";
-             break;
-         }
-         case 4:
-         {
-             animalSpecies = "penguin";
-             break;
-         }
-         }
-     }
-     if(path == MAMMAL_PAGE) {
-         switch(animalButtons->checkedId())
-         {
-         case 1:
-         {
-             animalSpecies = "elephant";
-             break;
-         }
-         case 2:
-         {
-             animalSpecies = "giraffe";
-             break;
-         }
-         case 3:
-         {
-             animalSpecies = "lion";
-             break;
-         }
-         case 4:
-         {
-             animalSpecies = "monkey";
-             break;
-         }
-         }
-     }
-     if(path == SNAKE_PAGE){
-         switch(animalButtons->checkedId())
-         {
-         case 1:
-         {
-             animalSpecies = "anaconda";
-             break;
-         }
-         case 2:
-         {
-             animalSpecies = "cobra";
-             break;
-         }
-         }
-      }
-
+     auto it = species.begin() + animalButtons->checkedId();
+     animalSpecies = it.key();
  }
 
-QString MiddlePage::getAnimalSpecies()const{return animalSpecies; }
+QString MiddlePage::getAnimalSpecies()const{ return animalSpecies; }
 
 bool MiddlePage::validatePage(){
     return (animalButtons->checkedId()!= -1);

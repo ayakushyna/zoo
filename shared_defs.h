@@ -2,8 +2,8 @@
 #define SHARED_DEFS_H
 
 
-enum pages {
-    INTRO_PAGE,
+enum Pages {
+    INTRO_PAGE ,
     BIRD_PAGE,
     MAMMAL_PAGE,
     SNAKE_PAGE,
@@ -13,6 +13,8 @@ enum pages {
     FINAL_PAGE
 };
 
-enum Animaltype { BIRD=1, MAMMAL, SNAKE };
+enum AnimalType { UNKNOWN, BIRD, MAMMAL, SNAKE };
+
+enum Message { NOANIMAL = -1, UNFED, FED };
 
 #endif // SHARED_DEFS_H

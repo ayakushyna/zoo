@@ -2,17 +2,24 @@
 #define BIRD_H
 
 #include "animal.h"
+#include "shared_defs.h"
 class Bird: public Animal
 {
 public:
     Bird();
-    Bird(const QString& name,int age, double weight, int percentOfFeeding,
-         const QString& species,double lengthOfWings,bool predator);
-    void setLengthOfWings(double lengthOfWings0);
-    double getLengthOfWings()const;
-    void setPredator(bool predator0);
-    bool getPredator()const;
+    Bird(const QString&, int, int, double,
+         int, const QString&,double,bool);
     ~Bird();
+
+    double getLengthOfWings()const;
+    bool getPredator()const;
+
+    static bool checkLengthOfWings(double);
+
+    bool feed(const Food&);
+
+    void read(const QJsonObject&);
+    void write(QJsonObject&) const;
 
 private:
     double mLengthOfWings;

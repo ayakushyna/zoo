@@ -2,18 +2,25 @@
 #define SNAKE_H
 
 #include "animal.h"
+#include "shared_defs.h"
 
 class Snake:public Animal
 {
 public:
     Snake();
-    Snake(const QString& name, int age,double weight, int percentOfFeeding,
-         const QString& species,double length,bool poisonous);
-    void setLength(double length);
-    double getLength() const;
-    void setPoisonous(bool poisonous);
-    bool getPoisonous() const;
+    Snake(const QString&, int, int, double,
+          int, const QString&, double, bool);
     ~Snake();
+
+    double getLength() const;
+    bool getPoisonous() const;
+
+    static bool checkLength(double);
+
+    bool feed(const Food&);
+
+    void read(const QJsonObject&);
+    void write(QJsonObject&) const;
 
 private:
     double mLength;

@@ -37,29 +37,15 @@ int AnimalWizard::getPath()const
     return SNAKE_PAGE;
 }
 
-QString AnimalWizard::getAnimalName()const{return animalName;}
+Animal& AnimalWizard::getAnimal() const{ return *animal;}
 
-int AnimalWizard::getAnimalAge()const{return animalAge;}
-
-double AnimalWizard::getAnimalWeight()const{return animalWeight;}
-
-int AnimalWizard::getAnimalPercent()const{return animalPercent;}
-
-QString AnimalWizard::getAnimalSpecies()const{return animalSpecies;}
-
-double AnimalWizard::getAnimalLengthOfWings()const{return animalLengthOfWings;}
-
-bool AnimalWizard::getAnimalPredator()const{ return animalPredator;}
-
-int AnimalWizard::getAnimalMilkPeriod()const{return animalMilkPeriod;}
-
-double AnimalWizard::getAnimalLength()const{return animalLength;}
-
-bool AnimalWizard::getAnimalPoisonous()const{ return animalPoisonous;}
-
-AnimalWizard::~AnimalWizard()
-{
-    delete ui;
+void AnimalWizard::setAnimalInfo(InfoPage* iPage, MiddlePage* mPage){
+    animalName = iPage->nameLineEdit->text();
+    animalYears = iPage->yearsLineEdit->text().toInt();
+    animalMonths = iPage->monthsLineEdit->text().toInt();
+    animalWeight = iPage->weightLineEdit->text().toDouble();
+    animalPercent = iPage->percentOfFeedingLineEdit->text().toInt();
+    animalSpecies = mPage->animalSpecies;
 }
 
 void AnimalWizard::accept()
@@ -68,37 +54,35 @@ void AnimalWizard::accept()
     {
     case BIRD_PAGE:
     {
-        animalName = birdInfoPage->nameLineEdit->text();
-        animalAge = birdInfoPage->ageLineEdit->text().toInt();
-        animalWeight = birdInfoPage->weightLineEdit->text().toDouble();
-        animalPercent = birdInfoPage->percentOfFeedingLineEdit->text().toInt();
-        animalSpecies = birdMiddlePage->animalSpecies;
-
+        setAnimalInfo(birdInfoPage,birdMiddlePage);
         animalLengthOfWings = birdInfoPage->lengthOfWingsLineEdit->text().toDouble();
-        animalPredator = birdInfoPage->predatorButton->isChecked() ;
+        animalPredator = birdInfoPage->predatorButton->isChecked();
+
+        animal.reset(new Bird(animalName,animalYears,animalMonths,animalWeight,animalPercent,
+                          animalSpecies,animalLengthOfWings,animalPredator));
+        qDebug()<< "After create" << animal.use_count();
         break;
     }
     case MAMMAL_PAGE:
     {
-        animalName = mammalInfoPage->nameLineEdit->text();
-        animalAge = mammalInfoPage->ageLineEdit->text().toInt();
-        animalWeight = mammalInfoPage->weightLineEdit->text().toDouble();
-        animalPercent = mammalInfoPage->percentOfFeedingLineEdit->text().toInt();
-        animalSpecies = mammalMiddlePage->animalSpecies;
-
+        setAnimalInfo(mammalInfoPage,mammalMiddlePage);
         animalMilkPeriod = mammalInfoPage->milkPeriodLineEdit->text().toInt();
+        animalPredator = mammalInfoPage->predatorButton->isChecked();
+
+        animal.reset(new Mammal(animalName,animalYears,animalMonths,animalWeight,animalPercent,
+                          animalSpecies,animalMilkPeriod,animalPredator));
+        qDebug()<< "After create" << animal.use_count();
         break;
     }
     case SNAKE_PAGE:
     {
-        animalName = snakeInfoPage->nameLineEdit->text();
-        animalAge = snakeInfoPage->ageLineEdit->text().toInt();
-        animalWeight = snakeInfoPage->weightLineEdit->text().toDouble();
-        animalPercent = snakeInfoPage->percentOfFeedingLineEdit->text().toInt();
-        animalSpecies = snakeMiddlePage->animalSpecies;
-
+        setAnimalInfo(snakeInfoPage,snakeMiddlePage);
         animalLength = snakeInfoPage->lengthLineEdit->text().toDouble();
         animalPoisonous = snakeInfoPage->poisonousButton->isChecked();
+
+        animal.reset(new Snake(animalName,animalYears,animalMonths,animalWeight,animalPercent,
+                          animalSpecies,animalLength,animalPoisonous));
+        qDebug()<< "After create" << animal.use_count();
         break;
     }
     }
@@ -106,4 +90,8 @@ void AnimalWizard::accept()
     QDialog::accept();
 }
 
+AnimalWizard::~AnimalWizard()
+{
+    delete ui;
+}
 

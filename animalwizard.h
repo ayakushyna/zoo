@@ -1,6 +1,11 @@
 #ifndef ANIMALWIZARD_H
 #define ANIMALWIZARD_H
 
+#include <memory>
+#include "animal.h"
+#include "bird.h"
+#include "mammal.h"
+#include "snake.h"
 #include "intropage.h"
 #include "middlepage.h"
 #include "infopage.h"
@@ -8,9 +13,6 @@
 #include <QtWidgets>
 #include "shared_defs.h"
 
-class MiddlePage;
-class InfoPage;
-class FinalPage;
 
 namespace Ui {class AnimalWizard;}
 
@@ -24,8 +26,10 @@ public:
     ~AnimalWizard();
 
     int getPath()const;
+    /*
     QString getAnimalName()const;
-    int getAnimalAge()const;
+    int getAnimalYears()const;
+    int getAnimalMonths()const;
     double getAnimalWeight()const;
     int getAnimalPercent()const;
     QString getAnimalSpecies()const;
@@ -34,11 +38,12 @@ public:
     int getAnimalMilkPeriod()const;
     double getAnimalLength()const;
     bool getAnimalPoisonous()const;
-
-
-
+*/
+     Animal& getAnimal() const;
 private:
     Ui::AnimalWizard *ui;
+
+    void setAnimalInfo(InfoPage* iPage, MiddlePage* mPage);
 
     IntroPage* introPage;
     MiddlePage* birdMiddlePage;
@@ -50,7 +55,7 @@ private:
     FinalPage* finalPage;
 
     QString animalName;
-    int animalAge;
+    int animalYears, animalMonths;
     double animalWeight;
     int animalPercent;
     QString animalSpecies;
@@ -62,6 +67,8 @@ private:
 
     double animalLength;
     bool animalPoisonous;
+
+    std::shared_ptr<Animal> animal;
 };
 
 #endif // ANIMALWIZARD_H

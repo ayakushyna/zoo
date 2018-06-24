@@ -36,7 +36,14 @@ SOURCES += \
     middlepage.cpp \
     finalpage.cpp \
     infopage.cpp \
-    animalinfo.cpp
+    animalinfo.cpp \
+    feeddialog.cpp \
+    movedialog.cpp \
+    renamedialog.cpp \
+    birdinfo.cpp \
+    mammalinfo.cpp \
+    snakeinfo.cpp \
+    food.cpp
 
 
 HEADERS += \
@@ -52,7 +59,14 @@ HEADERS += \
     finalpage.h \
     shared_defs.h \
     infopage.h \
-    animalinfo.h
+    animalinfo.h \
+    feeddialog.h \
+    movedialog.h \
+    renamedialog.h \
+    birdinfo.h \
+    mammalinfo.h \
+    snakeinfo.h \
+    food.h
 
 FORMS += \
         widget.ui \

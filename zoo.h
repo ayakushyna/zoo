@@ -6,26 +6,35 @@
 #include "snake.h"
 #include <QString>
 #include <QList>
-#include <QMap>
+#include <QVector>
 #include <iterator>
 #include "shared_defs.h"
-
-
+#include <QtAlgorithms>
+#include <memory>
 class Zoo
 {
 public:
     Zoo();
-    bool checkZooName(const QString& zooName);
-    void setZooName(const QString& zooName);
+    Zoo(const QString&);
+    ~Zoo();
+
+    static bool checkZooName(const QString&);
+    void setZooName(const QString&);
     QString getZooName()const;
-    QList<QString> getAnimalsNames() const;
-    void addAnimal( Animal* animal);
-    Animal* getAnimal(const QString& name) const;
-    void feeding(Animaltype type,const QString&  foodType, double foodWeight );
+    QStringList getAnimalsNames() const;
+    QStringList getSpecificNames(AnimalType) const;
+    void addAnimal( std::shared_ptr<Animal>);
+    void removeAnimal( const QString&);
+
+    std::shared_ptr<Animal> getAnimal(const QString&) const;
+    Message feeding(const Food&);
+
+    void read(const QJsonObject&);
+    void write(QJsonObject&) const;
 
 private:
     QString mZooName;
-    QMap<QString,Animal*> mAnimals;
+    QVector<std::shared_ptr<Animal>> mAnimals;
 };
 
 #endif // ZOO_H
